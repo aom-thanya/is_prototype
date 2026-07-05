@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { Zap, InfoCircle } from '@untitledui/icons';
 import { Button } from '../../components/base/buttons/button';
 import { Badge } from '../../components/base/badges/badges';
@@ -6,6 +7,8 @@ import { Input } from '../../components/base/input/input';
 import ExplainRecommendationModal from './ExplainRecommendationModal';
 
 export default function RecommendationList({ recommendations = [] }) {
+  const navigate = useNavigate();
+  const { id } = useParams();
   const [selectedCreators, setSelectedCreators] = useState(new Set());
   const [explainModalCreator, setExplainModalCreator] = useState(null);
 
@@ -25,7 +28,8 @@ export default function RecommendationList({ recommendations = [] }) {
       return;
     }
     if (confirm(`Are you sure you want to submit ${selectedCreators.size} selected influencers to the Planner?`)) {
-      alert("Submitted to Planner successfully!");
+      alert("Submitted to Planner successfully! Simulating passing the baton...");
+      navigate(`/brief/${id}/planner`);
     }
   };
 

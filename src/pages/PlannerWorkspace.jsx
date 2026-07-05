@@ -8,7 +8,7 @@ import BriefInfoSection from './planner-workspace/BriefInfoSection';
 import ExampleListSection from './planner-workspace/ExampleListSection';
 import SimilarCampaignSection from './planner-workspace/SimilarCampaignSection';
 import PlannerWorkspaceSection from './planner-workspace/PlannerWorkspaceSection';
-import ProposalFitCheckSection from './planner-workspace/ProposalFitCheckSection';
+
 import ClientIntelligencePanel from './planner-workspace/ClientIntelligencePanel';
 
 import { MOCK_PLANNER_DETAILS } from '../mockData/plannerDetails';
@@ -74,7 +74,6 @@ export default function PlannerWorkspace() {
           <ExampleListSection />
           <SimilarCampaignSection campaigns={data.similarCampaigns} />
           <PlannerWorkspaceSection />
-          <ProposalFitCheckSection />
         </div>
         
         {/* Right Column - Client Intelligence */}

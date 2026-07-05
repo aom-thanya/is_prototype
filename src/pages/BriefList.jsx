@@ -232,18 +232,17 @@ export default function BriefList() {
                           <Button 
                             color="tertiary"
                             size="sm"
-                            onClick={() => navigate(`/brief/${brief.id}/buyer`)}
-                            title="Buyer View"
+                            onClick={() => {
+                              if (brief.status === 'Draft' || brief.status === 'Brief') {
+                                navigate(`/brief/${brief.id}/buyer`);
+                              } else {
+                                navigate(`/brief/${brief.id}/planner`);
+                              }
+                            }}
+                            iconLeading={Eye}
+                            title="View / Process Brief"
                           >
-                            Buyer
-                          </Button>
-                          <Button 
-                            color="tertiary"
-                            size="sm"
-                            onClick={() => navigate(`/brief/${brief.id}/planner`)}
-                            title="Planner View"
-                          >
-                            Planner
+                            Process
                           </Button>
                           {canEdit && (
                             <Button 
