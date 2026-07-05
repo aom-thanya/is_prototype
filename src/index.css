@@ -1,17 +1,41 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 :root {
+  /* Fonts */
   --font-ibm: 'IBM Plex Sans Thai', sans-serif;
   --font-kanit: 'Kanit', sans-serif;
   --font-prompt: 'Prompt', sans-serif;
+
+  /* Brand Colors */
+  --color-primary: #6D5DF6;
+  --color-primary-hover: #5B4CE6;
+  --color-primary-foreground: #FFFFFF;
+  --color-primary-soft: #F4F2FF;
+  
+  --color-page-background: #F8F9FC;
+  --color-surface: #FFFFFF;
+  --color-border: #E9ECF5;
+  
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #6B7280;
+  
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+
+  /* Status Colors */
+  --color-status-draft: #9CA3AF; /* Gray */
+  --color-status-new: #3B82F6; /* Blue */
+  --color-status-waiting: #F59E0B; /* Amber */
+  --color-status-assigned: var(--color-primary); /* Purple (Primary) */
+  --color-status-in-progress: #06B6D4; /* Cyan */
+  --color-status-completed: #22C55E; /* Green */
+  --color-status-rejected: #EF4444; /* Red */
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #ffffff;
-  color: #333333;
+  background-color: var(--color-page-background);
+  color: var(--color-text-primary);
   font-family: var(--font-prompt);
 }
