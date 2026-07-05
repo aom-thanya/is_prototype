@@ -4,6 +4,8 @@ import CreateBrief from './pages/CreateBrief'
 import ClientList from './pages/ClientList'
 import CreateClient from './pages/CreateClient'
 import ClientDetails from './pages/ClientDetails'
+import BuyerWorkspace from './pages/BuyerWorkspace'
+import PlannerWorkspace from './pages/PlannerWorkspace'
 import Sidebar from './components/Sidebar'
 
 function App() {
@@ -17,8 +19,9 @@ function App() {
           <Route path="/client" element={<ClientList />} />
           <Route path="/create-client" element={<CreateClient />} />
           <Route path="/client/:id" element={<ClientDetails />} />
+          <Route path="/brief/:id/buyer" element={<BuyerWorkspace />} />
+          <Route path="/brief/:id/planner" element={<PlannerWorkspace />} />
           <Route path="/" element={<Navigate to="/brief" replace />} />
-          {/* Add more sub paths here in the future */}
         </Routes>
       </main>
     </div>

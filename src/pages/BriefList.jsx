@@ -232,10 +232,19 @@ export default function BriefList() {
                           <Button 
                             color="tertiary"
                             size="sm"
-                            onClick={() => handleView(brief.id)}
-                            iconLeading={Eye}
-                            title="View"
-                          />
+                            onClick={() => navigate(`/brief/${brief.id}/buyer`)}
+                            title="Buyer View"
+                          >
+                            Buyer
+                          </Button>
+                          <Button 
+                            color="tertiary"
+                            size="sm"
+                            onClick={() => navigate(`/brief/${brief.id}/planner`)}
+                            title="Planner View"
+                          >
+                            Planner
+                          </Button>
                           {canEdit && (
                             <Button 
                               color="tertiary"
