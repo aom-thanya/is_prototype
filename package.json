@@ -10,8 +10,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@untitledui/icons": "^0.0.22",
     "react": "^19.2.7",
-    "react-dom": "^19.2.7"
+    "react-dom": "^19.2.7",
+    "untitledui": "^0.1.64"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
