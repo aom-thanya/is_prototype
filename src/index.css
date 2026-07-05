@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
   --font-ibm: 'IBM Plex Sans Thai', sans-serif;
   --font-kanit: 'Kanit', sans-serif;
