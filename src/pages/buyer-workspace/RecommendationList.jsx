@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Zap, InfoCircle } from '@untitledui/icons';
+import { Zap, InfoCircle, AlertCircle } from '@untitledui/icons';
 import { Button } from '../../components/base/buttons/button';
 import { Badge } from '../../components/base/badges/badges';
 import { Input } from '../../components/base/input/input';
@@ -13,6 +13,7 @@ export default function RecommendationList({ recommendations = [] }) {
   const [selectedCreators, setSelectedCreators] = useState(new Set());
   const [explainModalCreator, setExplainModalCreator] = useState(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
 
   const toggleSelect = (id) => {
     const newSet = new Set(selectedCreators);
@@ -31,7 +32,7 @@ export default function RecommendationList({ recommendations = [] }) {
 
   const handleSubmit = () => {
     if (selectedCreators.size === 0) {
-      alert("กรุณาเลือกครีเอเตอร์อย่างน้อย 1 คนก่อนส่งให้ Planner");
+      setIsAlertOpen(true);
       return;
     }
     setIsConfirmOpen(true);
@@ -167,6 +168,17 @@ export default function RecommendationList({ recommendations = [] }) {
         confirmText="ยืนยันการส่ง"
         cancelText="ยกเลิก"
         icon={Zap}
+      />
+
+      <ConfirmModal
+        isOpen={isAlertOpen}
+        onClose={() => setIsAlertOpen(false)}
+        onConfirm={() => setIsAlertOpen(false)}
+        title="ไม่สามารถส่งข้อมูลได้"
+        description="กรุณาเลือกครีเอเตอร์อย่างน้อย 1 คนก่อนส่งให้ Planner"
+        confirmText="ตกลง"
+        hideCancel={true}
+        icon={AlertCircle}
       />
     </div>
   );

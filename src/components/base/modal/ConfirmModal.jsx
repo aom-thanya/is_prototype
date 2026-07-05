@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { XClose } from '@untitledui/icons';
 import { Button } from '../buttons/button';
 
@@ -10,11 +11,12 @@ export function ConfirmModal({
   description, 
   confirmText = "Confirm", 
   cancelText = "Cancel",
-  icon: Icon
+  icon: Icon,
+  hideCancel = false
 }) {
   if (!isOpen) return null;
 
-  return (
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm animate-in fade-in">
       <div className="bg-surface rounded-xl shadow-xl w-full max-w-md overflow-hidden flex flex-col relative animate-in zoom-in-95">
         
@@ -40,10 +42,11 @@ export function ConfirmModal({
         </div>
         
         <div className="px-6 py-5 bg-gray-50 border-t border-border flex items-center justify-end gap-3">
-          <Button color="secondary" onClick={onClose}>{cancelText}</Button>
+          {!hideCancel && <Button color="secondary" onClick={onClose}>{cancelText}</Button>}
           <Button color="primary" onClick={onConfirm}>{confirmText}</Button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

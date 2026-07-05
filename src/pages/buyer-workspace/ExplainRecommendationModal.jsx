@@ -1,4 +1,5 @@
 import React from 'react';
+import { createPortal } from 'react-dom';
 import { XClose, CheckCircle, AlertTriangle, File02 } from '@untitledui/icons';
 import { Button } from '../../components/base/buttons/button';
 import { Badge } from '../../components/base/badges/badges';
@@ -6,8 +7,8 @@ import { Badge } from '../../components/base/badges/badges';
 export default function ExplainRecommendationModal({ isOpen, onClose, creator }) {
   if (!isOpen || !creator) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm animate-in fade-in">
+  return createPortal(
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-gray-900/50 backdrop-blur-sm animate-in fade-in">
       <div className="bg-surface rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
         
         {/* Header */}
@@ -107,6 +108,7 @@ export default function ExplainRecommendationModal({ isOpen, onClose, creator })
           <Button color="secondary" onClick={onClose}>Close</Button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
