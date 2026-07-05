@@ -5,12 +5,14 @@ import { Button } from '../../components/base/buttons/button';
 import { Badge } from '../../components/base/badges/badges';
 import { Input } from '../../components/base/input/input';
 import ExplainRecommendationModal from './ExplainRecommendationModal';
+import { ConfirmModal } from '../../components/base/modal/ConfirmModal';
 
 export default function RecommendationList({ recommendations = [] }) {
   const navigate = useNavigate();
   const { id } = useParams();
   const [selectedCreators, setSelectedCreators] = useState(new Set());
   const [explainModalCreator, setExplainModalCreator] = useState(null);
+  const [isConfirmOpen, setIsConfirmOpen] = useState(false);
 
   const toggleSelect = (id) => {
     const newSet = new Set(selectedCreators);
@@ -22,15 +24,17 @@ export default function RecommendationList({ recommendations = [] }) {
     setSelectedCreators(newSet);
   };
 
+  const handleConfirmSubmit = () => {
+    setIsConfirmOpen(false);
+    navigate(`/brief/${id}/planner`);
+  };
+
   const handleSubmit = () => {
     if (selectedCreators.size === 0) {
-      alert("Please select at least 1 influencer before submitting to Planner.");
+      alert("กรุณาเลือกครีเอเตอร์อย่างน้อย 1 คนก่อนส่งให้ Planner");
       return;
     }
-    if (confirm(`Are you sure you want to submit ${selectedCreators.size} selected influencers to the Planner?`)) {
-      alert("Submitted to Planner successfully! Simulating passing the baton...");
-      navigate(`/brief/${id}/planner`);
-    }
+    setIsConfirmOpen(true);
   };
 
   if (recommendations.length === 0) {
@@ -152,6 +156,17 @@ export default function RecommendationList({ recommendations = [] }) {
         isOpen={!!explainModalCreator}
         onClose={() => setExplainModalCreator(null)}
         creator={explainModalCreator}
+      />
+
+      <ConfirmModal
+        isOpen={isConfirmOpen}
+        onClose={() => setIsConfirmOpen(false)}
+        onConfirm={handleConfirmSubmit}
+        title="ส่งข้อมูลให้ Planner?"
+        description={`คุณแน่ใจหรือไม่ที่จะส่งรายชื่อครีเอเตอร์ ${selectedCreators.size} คนที่เลือกไว้ให้กับ Planner? ทาง Planner จะได้รับการแจ้งเตือนเพื่อตรวจสอบข้อมูลต่อไป`}
+        confirmText="ยืนยันการส่ง"
+        cancelText="ยกเลิก"
+        icon={Zap}
       />
     </div>
   );
