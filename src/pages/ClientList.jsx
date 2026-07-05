@@ -4,11 +4,7 @@ import { SearchMd, Plus, Eye } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
 import { Input } from '../components/base/input/input';
 
-export const MOCK_CLIENTS = [
-  { id: '1', clientId: 'CLI-001', companyNameTh: 'บริษัท โคคา-โคลา (ประเทศไทย) จำกัด', addressTh: 'กรุงเทพมหานคร' },
-  { id: '2', clientId: 'CLI-002', companyNameTh: 'บริษัท ซัมซุง อิเลคโทรนิคส์ จำกัด', addressTh: 'กรุงเทพมหานคร' },
-  { id: '3', clientId: 'CLI-003', companyNameTh: 'บริษัท ลอรีอัล (ประเทศไทย) จำกัด', addressTh: 'กรุงเทพมหานคร' },
-];
+import { MOCK_CLIENTS } from '../mockData/clients';
 
 export default function ClientList() {
   const navigate = useNavigate();

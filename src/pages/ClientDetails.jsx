@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Edit02 } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
-import { MOCK_CLIENT } from './client-details/mockData';
+import { MOCK_CLIENT } from '../mockData/clientDetails';
 
 // Import Tab Components
 import OverviewTab from './client-details/OverviewTab';
