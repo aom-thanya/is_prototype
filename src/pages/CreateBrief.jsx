@@ -34,7 +34,7 @@ export default function CreateBrief() {
   });
   
   const [kpis, setKpis] = useState([]);
-  const [scopes, setScopes] = useState([]);
+  const [scopes, setScopes] = useState([{ id: 'init-1', platform: '', type: '', tier: '', qty: '', priceCap: '', remark: '' }]);
   const [references, setReferences] = useState([]);
   const [files, setFiles] = useState([]);
   
@@ -162,7 +162,7 @@ export default function CreateBrief() {
       <div className="p-8 max-w-[1000px] mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Button variant="tertiary" size="sm" icon={ArrowLeft} onClick={() => navigate('/brief')} />
+          <Button color="tertiary" size="sm" iconLeading={ArrowLeft} onClick={() => navigate('/brief')} />
           <div>
             <h1 className="text-2xl font-semibold text-text-primary font-title">Create Brief</h1>
             <p className="text-sm text-text-secondary mt-1">Fill in the details below to create a new campaign brief.</p>
@@ -292,11 +292,11 @@ export default function CreateBrief() {
                   <div className="flex-1">
                     <Input label="Remark" value={kpi.remark} onChange={val => updateKpi(kpi.id, 'remark', val)} placeholder="Optional note" />
                   </div>
-                  <Button variant="tertiary" onClick={() => removeKpi(kpi.id)} className="text-gray-400 hover:text-error" icon={Trash01} />
+                  <Button color="tertiary" onClick={() => removeKpi(kpi.id)} className="text-gray-400 hover:text-error" iconLeading={Trash01} />
                 </div>
               </div>
             ))}
-            <Button variant="link" size="sm" onClick={addKpi} icon={Plus}>
+            <Button color="link-color" size="sm" onClick={addKpi} iconLeading={Plus}>
               Add KPI
             </Button>
           </div>
@@ -374,11 +374,13 @@ export default function CreateBrief() {
                   <div className="flex-1">
                     <Input label="Remark" value={scope.remark} onChange={val => updateScope(scope.id, 'remark', val)} />
                   </div>
-                  <Button variant="tertiary" onClick={() => removeScope(scope.id)} className="text-gray-400 hover:text-error" icon={Trash01} />
+                  {scopes.length > 1 && (
+                    <Button color="tertiary" onClick={() => removeScope(scope.id)} className="text-gray-400 hover:text-error" iconLeading={Trash01} />
+                  )}
                 </div>
               </div>
             ))}
-            <Button variant="link" size="sm" onClick={addScope} icon={Plus}>
+            <Button color="link-color" size="sm" onClick={addScope} iconLeading={Plus}>
               Add Scope
             </Button>
           </div>
@@ -396,11 +398,11 @@ export default function CreateBrief() {
                   <div className="flex-1">
                     <Input label="URL" value={ref.url} onChange={val => updateReference(ref.id, 'url', val)} isInvalid={!!errors[`ref_${ref.id}`]} hint={errors[`ref_${ref.id}`]} placeholder="https://..." />
                   </div>
-                  <Button variant="tertiary" onClick={() => removeReference(ref.id)} className="text-gray-400 hover:text-error" icon={Trash01} />
+                  <Button color="tertiary" onClick={() => removeReference(ref.id)} className="text-gray-400 hover:text-error" iconLeading={Trash01} />
                 </div>
               </div>
             ))}
-            <Button variant="link" size="sm" onClick={addReference} icon={Plus}>
+            <Button color="link-color" size="sm" onClick={addReference} iconLeading={Plus}>
               Add Reference
             </Button>
           </div>
@@ -426,7 +428,7 @@ export default function CreateBrief() {
                       <span className="text-sm font-medium text-text-primary">{file.name}</span>
                       <span className="text-xs text-text-secondary">{file.size}</span>
                     </div>
-                    <Button variant="tertiary" size="sm" onClick={() => removeFile(file.id)} className="text-gray-400 hover:text-error" icon={Trash01} />
+                    <Button color="tertiary" size="sm" onClick={() => removeFile(file.id)} className="text-gray-400 hover:text-error" iconLeading={Trash01} />
                   </li>
                 ))}
               </ul>
@@ -441,16 +443,16 @@ export default function CreateBrief() {
       </div>
 
       {/* Action Footer */}
-      <div className="fixed bottom-0 left-0 right-0 lg:left-64 bg-white border-t border-border p-4 shadow-[0_-4px_6px_-1px_rgb(0,0,0,0.05)] z-40 transition-all">
+      <div className="sticky bottom-0 w-full bg-white border-t border-border p-4 shadow-[0_-4px_6px_-1px_rgb(0,0,0,0.05)] z-40">
         <div className="max-w-[1000px] mx-auto flex items-center justify-between gap-4">
-          <Button variant="secondary" onClick={() => navigate('/brief')}>
+          <Button color="secondary" onClick={() => navigate('/brief')}>
             Cancel
           </Button>
           <div className="flex items-center gap-3">
-            <Button variant="secondary" onClick={handleSaveDraft}>
+            <Button color="secondary" onClick={handleSaveDraft}>
               Save Draft
             </Button>
-            <Button variant="primary" onClick={handleSubmit}>
+            <Button color="primary" onClick={handleSubmit}>
               Submit Brief
             </Button>
           </div>

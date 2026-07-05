@@ -99,7 +99,7 @@ export default function BriefList() {
           <h1 className="text-2xl font-semibold text-text-primary font-title">Brief Management</h1>
           <p className="text-sm text-text-secondary mt-1">Manage campaign briefs from creation to approval</p>
         </div>
-        <Button variant="primary" onClick={handleCreate} icon={Plus}>
+        <Button color="primary" onClick={handleCreate} iconLeading={Plus}>
           Create Brief
         </Button>
       </div>
@@ -124,7 +124,7 @@ export default function BriefList() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           <div className="w-full">
             <Input 
-              icon={SearchMd}
+              iconLeading={SearchMd}
               placeholder="Search Brief No, Project..." 
               value={search}
               onChange={(val) => setSearch(val)}
@@ -245,26 +245,26 @@ export default function BriefList() {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex items-center justify-end gap-2">
                           <Button 
-                            variant="tertiary"
+                            color="tertiary"
                             size="sm"
                             onClick={() => handleView(brief.id)}
-                            icon={Eye}
+                            iconLeading={Eye}
                             title="View"
                           />
                           {canEdit && (
                             <Button 
-                              variant="tertiary"
+                              color="tertiary"
                               size="sm"
                               onClick={() => handleEdit(brief.id)}
-                              icon={Edit02}
+                              iconLeading={Edit02}
                               title="Edit"
                             />
                           )}
                           <Button 
-                            variant="tertiary"
+                            color="tertiary"
                             size="sm"
                             onClick={() => handleDuplicate(brief.id)}
-                            icon={Copy01}
+                            iconLeading={Copy01}
                             title="Duplicate"
                           />
                         </div>

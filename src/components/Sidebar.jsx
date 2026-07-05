@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 export default function Sidebar() {
   const location = useLocation();
   const isActive = location.pathname.startsWith('/brief');
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
 
   return (
     <aside className={`${isCollapsed ? 'w-20' : 'w-64'} bg-gray-900 text-white flex flex-col h-full shrink-0 transition-all duration-300 ease-in-out relative`}>

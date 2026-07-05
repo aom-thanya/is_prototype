@@ -11,24 +11,27 @@ export default {
         sans: ['"Prompt"', 'system-ui', '-apple-system', 'sans-serif'],
       },
       colors: {
-        primary: {
+        brand: {
           DEFAULT: '#6D5DF6',
-          hover: '#5B4CE6',
-          foreground: '#FFFFFF',
-          soft: '#F4F2FF',
+          solid: '#6D5DF6',
+          solid_hover: '#5B4CE6',
         },
         page: {
           background: '#F8F9FC',
         },
         surface: '#FFFFFF',
         border: '#E9ECF5',
-        text: {
-          primary: '#1F2937',
-          secondary: '#6B7280',
+        error: {
+          DEFAULT: '#EF4444',
+          solid: '#D92D20',
+          solid_hover: '#B42318',
+          primary: '#FEF3F2',
         },
+        error_subtle: '#FEE4E2',
+        'error-primary': '#D92D20',
+        'error-primary_hover': '#B42318',
         success: '#22C55E',
         warning: '#F59E0B',
-        error: '#EF4444',
         info: '#3B82F6',
         status: {
           draft: '#9CA3AF',
@@ -39,6 +42,27 @@ export default {
           completed: '#22C55E',
           rejected: '#EF4444',
         },
+      },
+      backgroundColor: {
+        primary: '#FFFFFF',
+        primary_hover: '#F9FAFB',
+        secondary: '#F9FAFB',
+      },
+      textColor: {
+        primary: '#1F2937',
+        secondary: '#344054',
+        secondary_hover: '#1D2939',
+        tertiary: '#475467',
+        tertiary_hover: '#344054',
+      },
+      borderColor: {
+        primary: '#D0D5DD',
+      },
+      ringColor: {
+        primary: '#D0D5DD',
+      },
+      boxShadow: {
+        'xs-skeuomorphic': '0px 1px 2px rgba(16, 24, 40, 0.05)',
       }
     },
   },
