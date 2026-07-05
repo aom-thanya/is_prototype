@@ -1,4 +1,4 @@
-export const MOCK_CLIENT = {
+const BASE_MOCK_CLIENT = {
   id: '1',
   clientId: 'CLI-001',
   companyNameTh: 'บริษัท โคคา-โคลา (ประเทศไทย) จำกัด',
@@ -77,6 +77,129 @@ export const MOCK_CLIENT = {
   
   documents: [
     { id: 'd1', name: 'Coke Summer 2026 Proposal.pdf', type: 'Proposal', campaign: 'Coke Summer Refresh 2026', uploadedBy: 'Planner', uploadedDate: '1 Jun 2026' },
-    { id: 'd2', name: 'Coke Rate Card.xlsx', type: 'Deal Sheet', campaign: 'Coke Zero Launch', uploadedBy: 'Sales', uploadedDate: '10 Mar 2026' }
+    { id: 'd2', name: 'Coke Rate Card.xlsx', type: 'Deal Sheet', campaign: 'Coke Zero Launch', uploadedBy: 'Sales', uploadedDate: '10 Mar 2026' },
+    {
+      id: 'doc3',
+      name: 'Brand Guidelines 2026.pdf',
+      type: 'PDF',
+      size: '5.2 MB',
+      uploadDate: '2026-06-25',
+      uploadedBy: 'Jane Smith'
+    }
+  ],
+  
+  competitors: [
+    {
+      id: '1',
+      clientId: "COMP-001",
+      competitorName: "Pepsi",
+      brandCompany: "บริษัท เป๊ปซี่-โคล่า (ไทย) เทรดดิ้ง จำกัด",
+      websiteUrl: "https://www.suntorypepsico.co.th/",
+      socialMediaUrl: "https://www.facebook.com/PepsiThai",
+      campaignReferenceUrl: "",
+      keyMessagePositioning: "For the Love of It - Youthful, energetic, and culturally relevant positioning.",
+      strengths: "Strong association with music and food pairing (e.g. กินกับเป๊ปซี่). High engagement with Gen Z.",
+      weaknesses: "Slightly less global market share compared to Coke, heavily reliant on local KOLs.",
+      notes: "Main direct competitor. Always check their seasonal music campaigns."
+    },
+    {
+      id: '2',
+      clientId: "COMP-002",
+      competitorName: "Est Cola",
+      brandCompany: "บริษัท เสริมสุข จำกัด (มหาชน)",
+      websiteUrl: "https://www.sermsukplc.com/",
+      socialMediaUrl: "https://www.facebook.com/estcola",
+      campaignReferenceUrl: "",
+      keyMessagePositioning: "Awesome (ซ่า...ซี้ดสุดขั้ว) - Local pride with a highly affordable value proposition.",
+      strengths: "Deep penetration in local restaurants, aggressive pricing, and massive local idol endorsements (e.g., K-pop / T-pop presenters).",
+      weaknesses: "Brand perception is sometimes seen as a lower-tier alternative compared to global giants.",
+      notes: "Very aggressive in school-tier marketing and upcountry distribution."
+    },
+    {
+      id: '3',
+      clientId: "COMP-003",
+      competitorName: "Singha Lemon Soda",
+      brandCompany: "บริษัท บุญรอดบริวเวอรี่ จำกัด",
+      websiteUrl: "https://www.singhacorporation.com/",
+      socialMediaUrl: "https://www.facebook.com/SinghaLemonSoda",
+      campaignReferenceUrl: "",
+      keyMessagePositioning: "Refreshing guilt-free soda (0% Sugar, 0 Kcal).",
+      strengths: "Captures the health-conscious market effectively while retaining the 'fizzy' appeal. Very strong cafe and mixology association.",
+      weaknesses: "Niche flavor profile, not a traditional dark cola.",
+      notes: "Growing threat in the 'Zero Sugar' segment."
+    }
   ]
+};
+
+export const GET_MOCK_CLIENT = (id) => {
+  const client = JSON.parse(JSON.stringify(BASE_MOCK_CLIENT));
+  client.id = id;
+  
+  if (id === '2') {
+    client.clientId = 'CLI-002';
+    client.companyNameTh = 'บริษัท ซัมซุง อิเลคโทรนิคส์ จำกัด';
+    client.companyNameEn = 'Samsung Electronics Thailand';
+    client.competitors = [
+      {
+        id: 'c1',
+        clientId: "COMP-S01",
+        competitorName: "Apple",
+        brandCompany: "Apple Inc.",
+        websiteUrl: "https://www.apple.com/th/",
+        socialMediaUrl: "https://www.facebook.com/apple",
+        campaignReferenceUrl: "",
+        keyMessagePositioning: "Premium, seamless ecosystem, privacy-focused.",
+        strengths: "Incredibly strong brand loyalty, high premium market share.",
+        weaknesses: "High price point, less customizable.",
+        notes: "Direct competitor in the premium smartphone and tablet segment."
+      },
+      {
+        id: 'c2',
+        clientId: "COMP-S02",
+        competitorName: "Xiaomi",
+        brandCompany: "Xiaomi Corporation",
+        websiteUrl: "https://www.mi.com/th",
+        socialMediaUrl: "https://www.facebook.com/XiaomiThailand",
+        campaignReferenceUrl: "",
+        keyMessagePositioning: "Innovation for everyone, high spec-to-price ratio.",
+        strengths: "Very aggressive pricing, huge variety of smart home products.",
+        weaknesses: "Brand perception still leaning towards budget/mid-range.",
+        notes: "Major competitor in the mid-to-low tier smartphone market."
+      }
+    ];
+  } else if (id === '3') {
+    client.clientId = 'CLI-003';
+    client.companyNameTh = 'บริษัท ลอรีอัล (ประเทศไทย) จำกัด';
+    client.companyNameEn = "L'Oréal Thailand";
+    client.competitors = [
+      {
+        id: 'c1',
+        clientId: "COMP-L01",
+        competitorName: "Unilever (Beauty)",
+        brandCompany: "บริษัท ยูนิลีเวอร์ ไทย เทรดดิ้ง จำกัด",
+        websiteUrl: "https://www.unilever.co.th/",
+        socialMediaUrl: "",
+        campaignReferenceUrl: "",
+        keyMessagePositioning: "Everyday beauty and personal care for everyone.",
+        strengths: "Massive distribution network, highly affordable.",
+        weaknesses: "Less focus on premium/dermatological segments compared to L'Oréal.",
+        notes: "Competes heavily in hair care and mass skin care."
+      },
+      {
+        id: 'c2',
+        clientId: "COMP-L02",
+        competitorName: "Estée Lauder",
+        brandCompany: "บริษัท เอสเต ลอเดอร์ (ประเทศไทย) จำกัด",
+        websiteUrl: "https://www.esteelauder.co.th/",
+        socialMediaUrl: "",
+        campaignReferenceUrl: "",
+        keyMessagePositioning: "Prestige beauty and luxury skincare.",
+        strengths: "Strong hold on the luxury and department store segments.",
+        weaknesses: "Limited presence in the mass market.",
+        notes: "Direct competitor for L'Oréal's Luxe division (e.g., Lancôme, Kiehl's)."
+      }
+    ];
+  }
+  
+  return client;
 };

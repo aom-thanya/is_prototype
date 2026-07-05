@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Edit02 } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
-import { MOCK_CLIENT } from '../mockData/clientDetails';
+import { GET_MOCK_CLIENT } from '../mockData/clientDetails';
 
 // Import Tab Components
 import OverviewTab from './client-details/OverviewTab';
@@ -11,6 +11,7 @@ import BrandsTab from './client-details/BrandsTab';
 import CampaignHistoryTab from './client-details/CampaignHistoryTab';
 import ClientKnowledgeTab from './client-details/ClientKnowledgeTab';
 import DocumentsTab from './client-details/DocumentsTab';
+import CompetitorsTab from './client-details/CompetitorsTab';
 
 const TABS = [
   { id: 'overview', label: 'Overview' },
@@ -18,6 +19,7 @@ const TABS = [
   { id: 'brands', label: 'Brands' },
   { id: 'campaign_history', label: 'Campaign History' },
   { id: 'client_knowledge', label: 'Client Knowledge' },
+  { id: 'competitors', label: 'Competitors' },
   { id: 'documents', label: 'Documents' }
 ];
 
@@ -29,8 +31,8 @@ export default function ClientDetails() {
   const [activeTab, setActiveTab] = useState('overview');
 
   useEffect(() => {
-    // Simulate fetch. For prototype, we just use MOCK_CLIENT directly for any ID.
-    setClient(MOCK_CLIENT);
+    // Simulate fetch.
+    setClient(GET_MOCK_CLIENT(id));
   }, [id]);
 
   if (!client) {
@@ -88,6 +90,7 @@ export default function ClientDetails() {
         {activeTab === 'brands' && <BrandsTab brands={client.brands} />}
         {activeTab === 'campaign_history' && <CampaignHistoryTab history={client.campaignHistory} />}
         {activeTab === 'client_knowledge' && <ClientKnowledgeTab knowledge={client.knowledge} />}
+        {activeTab === 'competitors' && <CompetitorsTab competitors={client.competitors} />}
         {activeTab === 'documents' && <DocumentsTab documents={client.documents} />}
       </div>
     </div>

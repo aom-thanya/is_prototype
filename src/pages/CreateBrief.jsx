@@ -39,8 +39,6 @@ export default function CreateBrief() {
   const [scopes, setScopes] = useState([{ id: 'init-1', platform: '', type: '', tier: '', qty: '', priceCap: '', remark: '' }]);
   const [references, setReferences] = useState([]);
   const [files, setFiles] = useState([]);
-  const [competitors, setCompetitors] = useState([]);
-  
   const [errors, setErrors] = useState({});
   const [toast, setToast] = useState(null);
 
@@ -103,17 +101,6 @@ export default function CreateBrief() {
   };
   const removeFile = (id) => setFiles(files.filter(f => f.id !== id));
 
-  // Competitor Handlers
-  const addCompetitor = () => setCompetitors([...competitors, { 
-    id: generateId(), 
-    competitorName: '', brandCompany: '', websiteUrl: '', socialMediaUrl: '', 
-    campaignReferenceUrl: '', keyMessagePositioning: '', strengths: '', weaknesses: '', notes: '' 
-  }]);
-  const removeCompetitor = (id) => setCompetitors(competitors.filter(c => c.id !== id));
-  const updateCompetitor = (id, field, value) => {
-    setCompetitors(competitors.map(c => c.id === id ? { ...c, [field]: value } : c));
-    if (errors[`comp_${id}_${field}`]) setErrors(errs => ({ ...errs, [`comp_${id}_${field}`]: null }));
-  };
 
   // Actions
   const showToast = (message, type = 'success') => {
@@ -153,19 +140,6 @@ export default function CreateBrief() {
       }
     });
 
-    // Competitor validation
-    const validCompetitors = [];
-    competitors.forEach(comp => {
-      if (!comp.competitorName.trim()) {
-        return; // skip empty rows
-      }
-      validCompetitors.push(comp);
-      const urlPattern = /^https?:\/\/.+/;
-      if (comp.websiteUrl && !urlPattern.test(comp.websiteUrl)) newErrors[`comp_${comp.id}_websiteUrl`] = 'Invalid URL';
-      if (comp.socialMediaUrl && !urlPattern.test(comp.socialMediaUrl)) newErrors[`comp_${comp.id}_socialMediaUrl`] = 'Invalid URL';
-      if (comp.campaignReferenceUrl && !urlPattern.test(comp.campaignReferenceUrl)) newErrors[`comp_${comp.id}_campaignReferenceUrl`] = 'Invalid URL';
-    });
-
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       showToast('Please fix the validation errors.', 'error');
@@ -173,9 +147,6 @@ export default function CreateBrief() {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
     }
-
-    // Clean up empty competitors before final save
-    setCompetitors(validCompetitors);
 
     showToast('Brief submitted successfully!');
     setTimeout(() => navigate('/brief'), 1500);
@@ -385,65 +356,8 @@ export default function CreateBrief() {
           </div>
         </SectionCard>
 
-        {/* Section 7: Competitors */}
-        <SectionCard title="7. Competitors">
-          <div className="space-y-4">
-            {competitors.length === 0 ? (
-              <div className="p-8 text-center bg-gray-50/50 border border-border rounded-lg text-text-secondary">
-                No competitors added yet. Add competitors to help Planner and Buyer understand the market landscape.
-              </div>
-            ) : (
-              competitors.map((comp) => (
-                <div key={comp.id} className="p-6 border border-border rounded-lg bg-gray-50/50 space-y-6 relative">
-                  <div className="absolute top-4 right-4">
-                    <Button color="tertiary" onClick={() => removeCompetitor(comp.id)} className="text-gray-400 hover:text-error" iconLeading={Trash01} />
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pr-8">
-                    <div>
-                      <Input label="Competitor Name" isRequired value={comp.competitorName} onChange={val => updateCompetitor(comp.id, 'competitorName', val)} isInvalid={!!errors[`comp_${comp.id}_competitorName`]} hint={errors[`comp_${comp.id}_competitorName`]} />
-                    </div>
-                    <div>
-                      <Input label="Brand / Company" value={comp.brandCompany} onChange={val => updateCompetitor(comp.id, 'brandCompany', val)} />
-                    </div>
-                    
-                    <div>
-                      <Input label="Website URL" value={comp.websiteUrl} onChange={val => updateCompetitor(comp.id, 'websiteUrl', val)} isInvalid={!!errors[`comp_${comp.id}_websiteUrl`]} hint={errors[`comp_${comp.id}_websiteUrl`]} placeholder="https://" />
-                    </div>
-                    <div>
-                      <Input label="Social Media URL" value={comp.socialMediaUrl} onChange={val => updateCompetitor(comp.id, 'socialMediaUrl', val)} isInvalid={!!errors[`comp_${comp.id}_socialMediaUrl`]} hint={errors[`comp_${comp.id}_socialMediaUrl`]} placeholder="https://" />
-                    </div>
-                    
-                    <div className="md:col-span-2">
-                      <Input label="Campaign Reference URL" value={comp.campaignReferenceUrl} onChange={val => updateCompetitor(comp.id, 'campaignReferenceUrl', val)} isInvalid={!!errors[`comp_${comp.id}_campaignReferenceUrl`]} hint={errors[`comp_${comp.id}_campaignReferenceUrl`]} placeholder="https://" />
-                    </div>
-                    
-                    <div className="md:col-span-2">
-                      <TextArea label="Key Message / Positioning" value={comp.keyMessagePositioning} onChange={val => updateCompetitor(comp.id, 'keyMessagePositioning', val)} rows={2} />
-                    </div>
-                    
-                    <div>
-                      <TextArea label="Strengths" value={comp.strengths} onChange={val => updateCompetitor(comp.id, 'strengths', val)} rows={2} />
-                    </div>
-                    <div>
-                      <TextArea label="Weaknesses" value={comp.weaknesses} onChange={val => updateCompetitor(comp.id, 'weaknesses', val)} rows={2} />
-                    </div>
-                    
-                    <div className="md:col-span-2">
-                      <TextArea label="Notes" value={comp.notes} onChange={val => updateCompetitor(comp.id, 'notes', val)} rows={2} />
-                    </div>
-                  </div>
-                </div>
-              ))
-            )}
-            <Button color="link-color" size="sm" onClick={addCompetitor} iconLeading={Plus}>
-              Add Competitor
-            </Button>
-          </div>
-        </SectionCard>
-
-        {/* Section 8: Scope of Work */}
-        <SectionCard title="8. Scope of Work">
+        {/* Section 7: Scope of Work */}
+        <SectionCard title="7. Scope of Work">
           <div className="space-y-4">
             {scopes.map((scope) => (
               <div key={scope.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 border border-border rounded-lg bg-gray-50/50">
@@ -502,8 +416,8 @@ export default function CreateBrief() {
           </div>
         </SectionCard>
 
-        {/* Section 9: References */}
-        <SectionCard title="9. References">
+        {/* Section 8: References */}
+        <SectionCard title="8. References">
           <div className="space-y-4">
             {references.map((ref) => (
               <div key={ref.id} className="flex flex-col md:flex-row gap-4 p-4 border border-border rounded-lg bg-gray-50/50">
@@ -524,8 +438,8 @@ export default function CreateBrief() {
           </div>
         </SectionCard>
 
-        {/* Section 10: Attachments */}
-        <SectionCard title="10. Attachments">
+        {/* Section 9: Attachments */}
+        <SectionCard title="9. Attachments">
           <div className="space-y-4">
             <div className="border-2 border-dashed border-border rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors">
               <UploadCloud02 className="w-10 h-10 text-gray-400 mb-3" />

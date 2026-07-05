@@ -10,12 +10,9 @@ import { MOCK_BRIEFS } from '../mockData/briefs';
 
 const STATUS_COLORS = {
   'Draft': 'gray',
-  'New': 'blue',
-  'Waiting Review': 'warning',
-  'Assigned': 'purple',
-  'In Progress': 'sky',
-  'Completed': 'success',
-  'Rejected': 'error',
+  'Brief': 'blue',
+  'Dealsheet': 'purple',
+  'Proposal': 'sky',
 };
 
 const StatusBadge = ({ status }) => {
@@ -138,12 +135,9 @@ export default function BriefList() {
               options={[
                 { label: 'All Statuses', value: 'All' },
                 { label: 'Draft', value: 'Draft' },
-                { label: 'New', value: 'New' },
-                { label: 'Waiting Sales Co Review', value: 'Waiting Review' },
-                { label: 'Rejected', value: 'Rejected' },
-                { label: 'Assigned', value: 'Assigned' },
-                { label: 'In Progress', value: 'In Progress' },
-                { label: 'Completed', value: 'Completed' },
+                { label: 'Brief', value: 'Brief' },
+                { label: 'Dealsheet', value: 'Dealsheet' },
+                { label: 'Proposal', value: 'Proposal' },
               ]}
             />
           </div>
