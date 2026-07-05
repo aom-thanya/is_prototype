@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Briefcase01, Building02, ChevronLeft, ChevronRight } from '@untitledui/icons';
+import { Home02, Briefcase01, Building02, ChevronLeft, ChevronRight } from '@untitledui/icons';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function Sidebar() {
@@ -18,6 +18,16 @@ export default function Sidebar() {
       </div>
       
       <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
+        <Link 
+          to="/dashboard" 
+          title="Dashboard"
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors ${
+            location.pathname.startsWith('/dashboard') || location.pathname === '/' ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+          } ${isCollapsed ? 'justify-center' : ''}`}
+        >
+          <Home02 className="w-5 h-5 shrink-0" />
+          {!isCollapsed && <span className="truncate">Home</span>}
+        </Link>
         <Link 
           to="/brief" 
           title="Brief"

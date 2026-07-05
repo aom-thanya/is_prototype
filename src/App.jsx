@@ -4,6 +4,7 @@ import CreateBrief from './pages/CreateBrief'
 import ClientList from './pages/ClientList'
 import CreateClient from './pages/CreateClient'
 import ClientDetails from './pages/ClientDetails'
+import DashboardHome from './pages/DashboardHome'
 import BuyerWorkspace from './pages/BuyerWorkspace'
 import PlannerWorkspace from './pages/PlannerWorkspace'
 import Sidebar from './components/Sidebar'
@@ -14,6 +15,7 @@ function App() {
       <Sidebar />
       <main className="flex-1 overflow-y-auto relative">
         <Routes>
+          <Route path="/dashboard" element={<DashboardHome />} />
           <Route path="/brief" element={<BriefList />} />
           <Route path="/create-brief" element={<CreateBrief />} />
           <Route path="/client" element={<ClientList />} />
@@ -21,7 +23,7 @@ function App() {
           <Route path="/client/:id" element={<ClientDetails />} />
           <Route path="/brief/:id/buyer" element={<BuyerWorkspace />} />
           <Route path="/brief/:id/planner" element={<PlannerWorkspace />} />
-          <Route path="/" element={<Navigate to="/brief" replace />} />
+          <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </main>
     </div>
