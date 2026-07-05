@@ -56,10 +56,7 @@ export default function PlannerWorkspace() {
         </div>
         
         <div className="flex flex-wrap items-center gap-2">
-          <Button color="secondary">Edit Brief</Button>
-          <Button color="secondary">Export</Button>
-          <div className="h-6 w-px bg-border mx-2"></div>
-          <Button color="tertiary" iconLeading={FileCheck02}>Generate Deal Sheet</Button>
+          <Button color="secondary" iconLeading={FileCheck02}>Generate Deal Sheet</Button>
           <Button color="primary" iconLeading={File02}>Generate Proposal</Button>
           <Button color="primary" iconLeading={Send01}>Submit for Review</Button>
         </div>
