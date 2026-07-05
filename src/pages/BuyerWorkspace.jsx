@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { ArrowLeft } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
+import PageLoader from '../components/PageLoader';
 import BriefSummarySection from './buyer-workspace/BriefSummarySection';
 import RecommendationList from './buyer-workspace/RecommendationList';
 import { MOCK_PLANNER_DETAILS } from '../mockData/plannerDetails';
@@ -38,10 +39,7 @@ export default function BuyerWorkspace() {
       </div>
 
       {loading ? (
-        <div className="flex flex-col items-center justify-center py-20">
-          <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-brand-600 mb-4"></div>
-          <p className="text-text-secondary">AI is finding recommended influencers...</p>
-        </div>
+        <PageLoader message="AI กำลังค้นหาครีเอเตอร์ที่เหมาะสม..." />
       ) : (
         <>
           <BriefSummarySection brief={brief} />
