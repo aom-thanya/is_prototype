@@ -42,5 +42,18 @@ To run this project locally, follow these steps:
 *   `src/mockData/` - Local JSON data simulating backend APIs for briefs, clients, and influencers.
 *   `src/App.jsx` - Main application routing and layout wrapper (Sidebar + Content area).
 
+## 🌐 Deployment
+
+This project is optimized for deployment on platforms like [Vercel](https://vercel.com/) or [Netlify](https://www.netlify.com/).
+
+### Vercel Deployment Notes
+If you are deploying to Vercel, the build settings should be automatically detected:
+*   **Framework Preset**: Vite
+*   **Build Command**: `npm run build`
+*   **Output Directory**: `dist`
+*   **Install Command**: `npm install`
+
+*(Note: We have strictly pinned some UI dependencies to ensure compatibility with Tailwind CSS v3 during the Vercel build process).*
+
 ---
 *Note: This is a frontend prototype relying on mock data. There is no active backend database connection.*
