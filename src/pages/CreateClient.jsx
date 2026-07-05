@@ -38,7 +38,7 @@ export default function CreateClient() {
         </div>
       )}
 
-      <div className="p-8 max-w-[800px] mx-auto space-y-6 flex-1 w-full">
+      <div className="p-8 max-w-[1400px] mx-auto space-y-6 flex-1 w-full">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button color="tertiary" size="sm" iconLeading={ArrowLeft} onClick={() => navigate('/client')} />

@@ -9,11 +9,10 @@ export default function Sidebar() {
 
   return (
     <aside className={`${isCollapsed ? 'w-20' : 'w-64'} bg-gray-900 text-white flex flex-col h-full shrink-0 transition-all duration-300 ease-in-out relative`}>
-      <div className={`p-6 border-b border-gray-800 flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'}`}>
-        {!isCollapsed ? (
+      <div className={`p-6 border-b border-gray-800 flex items-center ${isCollapsed ? 'justify-center' : 'justify-start gap-3'}`}>
+        <img src="/favicon.png" alt="Logo" className="w-8 h-8 shrink-0 object-contain" />
+        {!isCollapsed && (
           <h2 className="text-lg font-bold tracking-wide font-title truncate">Brief Management</h2>
-        ) : (
-          <div className="w-8 h-8 rounded bg-primary text-white flex items-center justify-center font-bold">B</div>
         )}
       </div>
       

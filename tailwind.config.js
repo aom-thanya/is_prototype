@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        title: ['"Prompt"', 'sans-serif'],
-        sans: ['"Prompt"', 'system-ui', '-apple-system', 'sans-serif'],
+        title: ['"IBM Plex Sans Thai"', 'sans-serif'],
+        sans: ['"IBM Plex Sans Thai"', 'system-ui', '-apple-system', 'sans-serif'],
       },
       colors: {
         fg: {

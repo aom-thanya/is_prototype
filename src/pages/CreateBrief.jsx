@@ -161,7 +161,7 @@ export default function CreateBrief() {
         </div>
       )}
 
-      <div className="p-8 max-w-[1000px] mx-auto space-y-6">
+      <div className="p-8 max-w-[1400px] mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button color="tertiary" size="sm" iconLeading={ArrowLeft} onClick={() => navigate('/brief')} />

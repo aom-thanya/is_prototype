@@ -5,9 +5,6 @@
 :root {
   /* Fonts */
   --font-ibm: 'IBM Plex Sans Thai', sans-serif;
-  --font-kanit: 'Kanit', sans-serif;
-  --font-prompt: 'Prompt', sans-serif;
-  --font-sarabun: 'Sarabun', sans-serif;
 
   /* Brand Colors */
   --color-primary: #6D5DF6;
@@ -42,5 +39,5 @@ body {
   padding: 0;
   background-color: var(--color-page-background);
   color: var(--color-text-primary);
-  font-family: 'Prompt', sans-serif;
+  font-family: var(--font-ibm);
 }
