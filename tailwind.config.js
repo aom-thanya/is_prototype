@@ -11,6 +11,15 @@ export default {
         sans: ['"Prompt"', 'system-ui', '-apple-system', 'sans-serif'],
       },
       colors: {
+        fg: {
+          white: '#FFFFFF',
+          quaternary: '#98A2B3',
+          quaternary_hover: '#667085',
+          'error-primary': '#D92D20',
+          'error-secondary': '#F04438',
+          'brand-primary': '#6D5DF6',
+          'success-secondary': '#12B76A',
+        },
         brand: {
           DEFAULT: '#6D5DF6',
           solid: '#6D5DF6',
