@@ -22,6 +22,37 @@ export default function OverviewTab({ client }) {
         </div>
       </div>
 
+      {/* Section 2: KPI Summary Cards */}
+      <div>
+        <h3 className="font-semibold text-text-primary mb-3">KPI Summary</h3>
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
+            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Total Campaigns</p>
+            <p className="text-xl font-semibold text-text-primary">{client.kpis.totalCampaigns}</p>
+          </div>
+          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
+            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Total Revenue</p>
+            <p className="text-xl font-semibold text-text-primary">{client.kpis.totalRevenue}</p>
+          </div>
+          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
+            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Average Budget</p>
+            <p className="text-xl font-semibold text-text-primary">{client.kpis.averageBudget}</p>
+          </div>
+          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
+            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Average GP</p>
+            <p className="text-xl font-semibold text-text-primary">{client.kpis.averageGp}</p>
+          </div>
+          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
+            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Last Campaign</p>
+            <p className="text-xl font-semibold text-text-primary">{client.kpis.lastCampaign}</p>
+          </div>
+          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
+            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Avg. Approval</p>
+            <p className="text-xl font-semibold text-text-primary">{client.kpis.avgApprovalTime}</p>
+          </div>
+        </div>
+      </div>
+
       {/* Section 1: Client Information */}
       <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-border bg-gray-50 flex items-center justify-between">
@@ -86,36 +117,6 @@ export default function OverviewTab({ client }) {
         </div>
       </div>
 
-      {/* Section 2: KPI Summary Cards */}
-      <div>
-        <h3 className="font-semibold text-text-primary mb-3">KPI Summary</h3>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
-            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Total Campaigns</p>
-            <p className="text-xl font-semibold text-text-primary">{client.kpis.totalCampaigns}</p>
-          </div>
-          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
-            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Total Revenue</p>
-            <p className="text-xl font-semibold text-text-primary">{client.kpis.totalRevenue}</p>
-          </div>
-          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
-            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Average Budget</p>
-            <p className="text-xl font-semibold text-text-primary">{client.kpis.averageBudget}</p>
-          </div>
-          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
-            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Average GP</p>
-            <p className="text-xl font-semibold text-text-primary">{client.kpis.averageGp}</p>
-          </div>
-          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
-            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Last Campaign</p>
-            <p className="text-xl font-semibold text-text-primary">{client.kpis.lastCampaign}</p>
-          </div>
-          <div className="bg-surface p-4 rounded-xl border border-border shadow-sm flex flex-col justify-center">
-            <p className="text-xs text-text-secondary font-medium uppercase tracking-wider mb-1">Avg. Approval</p>
-            <p className="text-xl font-semibold text-text-primary">{client.kpis.avgApprovalTime}</p>
-          </div>
-        </div>
-      </div>
 
 
     </div>

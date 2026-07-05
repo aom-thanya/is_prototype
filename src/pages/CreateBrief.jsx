@@ -5,8 +5,10 @@ import { Button } from '../components/base/buttons/button';
 import { Input } from '../components/base/input/input';
 import { TextArea } from '../components/base/textarea/textarea';
 import { NativeSelect } from '../components/base/select/select-native';
+import { Select } from '../components/base/select/select';
 import { Checkbox } from '../components/base/checkbox/checkbox';
 import { RadioButton, RadioGroup } from '../components/base/radio-buttons/radio-buttons';
+import { MOCK_CLIENTS } from './ClientList';
 
 const SectionCard = ({ title, children, error }) => (
   <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden mb-6">
@@ -179,10 +181,38 @@ export default function CreateBrief() {
               <Input label="Project Name" isRequired value={formData.projectName} onChange={(val) => handleChange('projectName', val)} isInvalid={!!errors.projectName} hint={errors.projectName} placeholder="Enter project name" />
             </div>
             <div>
-              <Input label="Client" isRequired value={formData.client} onChange={(val) => handleChange('client', val)} isInvalid={!!errors.client} hint={errors.client} placeholder="Enter client name" />
+              <Select.ComboBox
+                label="Client"
+                isRequired
+                placeholder="Search and select client"
+                items={MOCK_CLIENTS.map(c => ({ id: c.id, name: c.companyNameTh }))}
+                selectedKey={MOCK_CLIENTS.find(c => c.companyNameTh === formData.client)?.id || null}
+                onSelectionChange={(key) => {
+                  const client = MOCK_CLIENTS.find(c => c.id === key);
+                  handleChange('client', client ? client.companyNameTh : '');
+                  handleChange('brand', '');
+                }}
+              >
+                {(item) => <Select.Item>{item.name}</Select.Item>}
+              </Select.ComboBox>
+              {errors.client && <p className="text-error text-xs mt-1">{errors.client}</p>}
             </div>
             <div>
-              <Input label="Brand" isRequired value={formData.brand} onChange={(val) => handleChange('brand', val)} isInvalid={!!errors.brand} hint={errors.brand} placeholder="Enter brand name" />
+              <Select.ComboBox
+                label="Brand"
+                isRequired
+                placeholder="Search and select brand"
+                items={formData.client === 'บริษัท โคคา-โคลา (ประเทศไทย) จำกัด' ? [{id: '1', name: 'Coke'}, {id: '2', name: 'Minute Maid'}] : (formData.client ? [{id: '99', name: 'Other Brand'}] : [])}
+                selectedKey={formData.brand ? '1' : null} // Simplified for prototype
+                onSelectionChange={(key) => {
+                  // Extremely simplified for prototype
+                  const brandName = key === '1' ? 'Coke' : (key === '2' ? 'Minute Maid' : 'Other Brand');
+                  handleChange('brand', brandName);
+                }}
+              >
+                {(item) => <Select.Item>{item.name}</Select.Item>}
+              </Select.ComboBox>
+              {errors.brand && <p className="text-error text-xs mt-1">{errors.brand}</p>}
             </div>
             <div>
               <Input label="Campaign Name" value={formData.campaignName} onChange={(val) => handleChange('campaignName', val)} placeholder="Enter campaign name" />

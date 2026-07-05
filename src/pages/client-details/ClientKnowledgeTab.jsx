@@ -57,6 +57,13 @@ export default function ClientKnowledgeTab({ knowledge }) {
       <div>
         <h3 className="font-semibold text-text-primary text-lg mb-4">Decision Pattern</h3>
         <div className="bg-surface rounded-xl border border-border shadow-sm p-6 space-y-6">
+          <div className="bg-brand-50 p-4 rounded-lg border border-brand-100 flex gap-3 mb-6">
+            <Zap className="w-5 h-5 text-brand-600 mt-0.5 shrink-0" />
+            <p className="text-sm text-brand-800 leading-relaxed">
+              <span className="font-medium">AI Insight:</span> {knowledge.decisionPattern.aiInsight}
+            </p>
+          </div>
+
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             <DecisionScore label="Approval Speed" score={knowledge.decisionPattern.approvalSpeed} />
             <DecisionScore label="Data Driven" score={knowledge.decisionPattern.dataDriven} />
@@ -64,13 +71,6 @@ export default function ClientKnowledgeTab({ knowledge }) {
             <DecisionScore label="Creative Freedom" score={knowledge.decisionPattern.creativeFreedom} />
             <DecisionScore label="Revision Frequency" score={knowledge.decisionPattern.revisionFrequency} />
             <DecisionScore label="Risk Appetite" score={knowledge.decisionPattern.riskAppetite} />
-          </div>
-          
-          <div className="bg-brand-50 p-4 rounded-lg border border-brand-100 flex gap-3">
-            <Zap className="w-5 h-5 text-brand-600 mt-0.5 shrink-0" />
-            <p className="text-sm text-brand-800 leading-relaxed">
-              <span className="font-medium">AI Insight:</span> {knowledge.decisionPattern.aiInsight}
-            </p>
           </div>
         </div>
       </div>
