@@ -1,16 +1,46 @@
-# React + Vite
+# KOL Management Platform - Prototype
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This is a prototype web application designed for an Influencer (KOL) Management Agency. It streamlines the end-to-end workflow between different internal teams (Sales, Buyers, and Planners) to manage client briefs, discover influencers, and track campaign proposals.
 
-Currently, two official plugins are available:
+## 🚀 Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+*   **Role-Based Workflows**: Seamlessly simulates the experience for Sales, Buyers, and Planners with tailored workspaces.
+*   **Brief Management**: Track campaign briefs with SLA indicators, status tags (Draft, Brief, Dealsheet, Proposal), and assignment owners.
+*   **Influencer Recommendations**: AI-powered loading states and a recommendation engine where Buyers can select and submit suitable creators to Planners.
+*   **Client Database**: A dedicated section to manage client profiles, brand information, and contact details.
+*   **Interactive UI**: Incorporates skeleton loading, customized pagination, confirmation modals, and responsive data tables.
 
-## React Compiler
+## 🛠️ Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+*   **Framework**: [React.js](https://react.dev/) powered by [Vite](https://vitejs.dev/)
+*   **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+*   **Routing**: [React Router](https://reactrouter.com/)
+*   **Icons**: [@untitledui/icons](https://untitledui.com/)
+*   **Typography**: IBM Plex Sans Thai
 
-## Expanding the Oxlint configuration
+## 📦 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+To run this project locally, follow these steps:
+
+1.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
+
+2.  **Start the development server**:
+    ```bash
+    npm run dev
+    ```
+
+3.  **Open in browser**:
+    Navigate to `http://localhost:5173` (or the port specified in your terminal) to view the application.
+
+## 🧩 Project Structure
+
+*   `src/pages/` - Contains main application views (Dashboard, Brief Management, Workspaces).
+*   `src/components/base/` - Reusable UI components (Buttons, Inputs, Modals, Badges).
+*   `src/mockData/` - Local JSON data simulating backend APIs for briefs, clients, and influencers.
+*   `src/App.jsx` - Main application routing and layout wrapper (Sidebar + Content area).
+
+---
+*Note: This is a frontend prototype relying on mock data. There is no active backend database connection.*
