@@ -1,78 +1,134 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 function App() {
-  return (
-    <div className="min-h-screen bg-white">
-      {/* Navigation */}
-      <nav className="border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <div className="flex-shrink-0 flex items-center gap-2">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">IS</span>
-              </div>
-              <span className="font-semibold text-xl text-gray-900">Prototype</span>
-            </div>
-            <div className="hidden sm:flex sm:space-x-8">
-              <a href="#" className="text-gray-900 inline-flex items-center px-1 pt-1 font-medium">Home</a>
-              <a href="#" className="text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 font-medium">Features</a>
-              <a href="#" className="text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 font-medium">Resources</a>
-              <a href="#" className="text-gray-500 hover:text-gray-900 inline-flex items-center px-1 pt-1 font-medium">Pricing</a>
-            </div>
-            <div className="hidden sm:flex items-center space-x-4">
-              <button className="text-gray-500 hover:text-gray-900 font-medium px-3 py-2">Log in</button>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium shadow-sm transition-colors">Sign up</button>
-            </div>
-          </div>
-        </div>
-      </nav>
+  const [menu, setMenu] = useState([]);
+  const [selectedDrinks, setSelectedDrinks] = useState([]);
+  const [orderMessage, setOrderMessage] = useState('');
+  const [orderId, setOrderId] = useState('');
+  const [loading, setLoading] = useState(false);
 
-      {/* Hero Section */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 text-center lg:pt-32">
-        <div className="mx-auto max-w-3xl">
-          <div className="mb-8 flex justify-center">
-            <span className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-sm font-medium text-blue-700 ring-1 ring-inset ring-blue-700/10">
-              What's new
-              <span className="ml-2 flex items-center text-blue-600">
-                Just shipped v1.0 <span className="ml-1">→</span>
-              </span>
-            </span>
-          </div>
-          
-          <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl mb-6">
-            Beautiful UI for your next prototype
-          </h1>
-          
-          <p className="mt-6 text-lg leading-8 text-gray-600 mb-10 max-w-2xl mx-auto">
-            Build faster with our premium components, carefully crafted following the best design systems. Start your next project with confidence.
-          </p>
-          
-          <div className="flex items-center justify-center gap-x-4">
-            <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold shadow-sm transition-colors text-lg">
-              Get started
-            </button>
-            <button className="bg-white hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-semibold shadow-sm ring-1 ring-inset ring-gray-300 transition-all text-lg flex items-center gap-2">
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4Z"/></svg>
-              View demo
-            </button>
-          </div>
+  // Fetch menu on component mount
+  useEffect(() => {
+    fetch('http://localhost:8000/menu')
+      .then((res) => res.json())
+      .then((data) => setMenu(data))
+      .catch((err) => console.error('Failed to fetch menu:', err));
+  }, []);
+
+  const toggleDrink = (drinkName) => {
+    setSelectedDrinks((prev) => {
+      if (prev.includes(drinkName)) {
+        return prev.filter((d) => d !== drinkName);
+      } else {
+        return [...prev, drinkName];
+      }
+    });
+  };
+
+  const clearSelection = () => {
+    setSelectedDrinks([]);
+    setOrderMessage('');
+    setOrderId('');
+  };
+
+  const placeOrder = async () => {
+    if (selectedDrinks.length === 0) return;
+    
+    setLoading(true);
+    try {
+      const response = await fetch('http://localhost:8000/orders', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ drinks: selectedDrinks }),
+      });
+      const data = await response.json();
+      setOrderId(data.order_id);
+      setOrderMessage(`You ordered ${selectedDrinks.length} drinks.`);
+    } catch (error) {
+      console.error('Order failed:', error);
+      setOrderMessage('Failed to place order. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 flex flex-col items-center">
+      {/* Centered Teal Heading */}
+      <div className="text-center mb-8">
+        <h1 className="text-5xl font-bold text-teal-600 tracking-tight">Brew &amp; Co</h1>
+        <p className="mt-2 text-lg text-gray-500">Welcome to your local neighborhood coffee shop.</p>
+      </div>
+
+      {/* Main Card Content */}
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
+        <div className="flex justify-between items-center mb-6">
+          <h2 className="text-2xl font-semibold text-gray-800">Menu</h2>
+          <span className="bg-teal-50 text-teal-700 py-1 px-3 rounded-full text-sm font-medium">
+            Selected: {selectedDrinks.length}
+          </span>
         </div>
-        
-        {/* Mockup/Image placeholder */}
-        <div className="mt-16 sm:mt-24">
-          <div className="rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:rounded-2xl lg:p-4 mx-auto max-w-5xl">
-            <div className="rounded-md bg-white shadow-2xl ring-1 ring-gray-900/10 aspect-[16/9] flex items-center justify-center bg-gray-50 overflow-hidden relative">
-              {/* Fake UI inside */}
-              <div className="absolute top-0 left-0 w-full h-12 border-b border-gray-200 bg-white flex items-center px-4 gap-2">
-                <div className="w-3 h-3 rounded-full bg-red-400"></div>
-                <div className="w-3 h-3 rounded-full bg-amber-400"></div>
-                <div className="w-3 h-3 rounded-full bg-green-400"></div>
-              </div>
-              <div className="text-gray-400 font-medium">Dashboard Preview</div>
-            </div>
-          </div>
+
+        {/* Menu Items */}
+        <div className="space-y-4 mb-8">
+          {menu.length === 0 ? (
+            <p className="text-gray-400 text-center py-4">Loading menu...</p>
+          ) : (
+            menu.map((drink) => {
+              const isSelected = selectedDrinks.includes(drink.name);
+              return (
+                <div
+                  key={drink.name}
+                  onClick={() => toggleDrink(drink.name)}
+                  className={`cursor-pointer flex justify-between items-center p-4 rounded-xl border transition-all ${
+                    isSelected
+                      ? 'border-teal-500 bg-teal-50 ring-1 ring-teal-500'
+                      : 'border-gray-200 hover:border-teal-300 hover:bg-gray-50'
+                  }`}
+                >
+                  <span className={`font-medium ${isSelected ? 'text-teal-900' : 'text-gray-700'}`}>
+                    {drink.name}
+                  </span>
+                  <span className={`${isSelected ? 'text-teal-700' : 'text-gray-500'}`}>
+                    ฿{drink.price}
+                  </span>
+                </div>
+              );
+            })
+          )}
         </div>
-      </main>
+
+        {/* Actions */}
+        <div className="flex gap-4">
+          <button
+            onClick={clearSelection}
+            className="flex-1 py-3 px-4 rounded-xl border border-gray-300 text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+          >
+            Clear
+          </button>
+          <button
+            onClick={placeOrder}
+            disabled={selectedDrinks.length === 0 || loading}
+            className={`flex-[2] py-3 px-4 rounded-xl font-medium text-white shadow-sm transition-colors ${
+              selectedDrinks.length === 0 || loading
+                ? 'bg-gray-800 opacity-50 cursor-not-allowed'
+                : 'bg-gray-900 hover:bg-black'
+            }`}
+          >
+            {loading ? 'Ordering...' : 'Order now'}
+          </button>
+        </div>
+
+        {/* Order Feedback */}
+        {orderMessage && (
+          <div className="mt-6 p-4 rounded-xl bg-gray-50 border border-gray-100 text-center">
+            <p className="text-gray-800 font-medium">{orderMessage}</p>
+            {orderId && (
+              <p className="text-sm text-gray-500 mt-1">Order ID: <span className="font-mono font-semibold">{orderId}</span></p>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   );
 }
