@@ -16,7 +16,7 @@ export default function DashboardHome() {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
           <h1 className="text-2xl font-semibold text-text-primary font-title">Brief Management Home</h1>
-          <p className="text-sm text-text-secondary mt-1">Welcome back! Here's an overview of your current tasks and SLA performance.</p>
+          <p className="text-sm text-text-secondary mt-1">Track your active briefs, prioritize urgent tasks, and stay on top of every assignment with a personalized dashboard.</p>
         </div>
         
         {/* Prototype Only: Role Simulator */}
