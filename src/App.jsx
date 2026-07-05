@@ -29,10 +29,10 @@ function App() {
     const randomMsg = LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)];
     setLoadingMessage(randomMsg);
 
-    // Simulate initial loading for 1.5 seconds
+    // Simulate initial loading for 3 seconds
     const timer = setTimeout(() => {
       setIsAppLoading(false);
-    }, 1500);
+    }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
