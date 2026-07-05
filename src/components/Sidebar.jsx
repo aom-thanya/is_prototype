@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Briefcase01, ChevronLeft, ChevronRight } from '@untitledui/icons';
+import { Briefcase01, Building02, ChevronLeft, ChevronRight } from '@untitledui/icons';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function Sidebar() {
@@ -27,6 +27,16 @@ export default function Sidebar() {
         >
           <Briefcase01 className="w-5 h-5 shrink-0" />
           {!isCollapsed && <span className="truncate">Brief</span>}
+        </Link>
+        <Link 
+          to="/client" 
+          title="Client"
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-lg font-medium transition-colors ${
+            location.pathname.startsWith('/client') ? 'bg-gray-800 text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white'
+          } ${isCollapsed ? 'justify-center' : ''}`}
+        >
+          <Building02 className="w-5 h-5 shrink-0" />
+          {!isCollapsed && <span className="truncate">Client</span>}
         </Link>
         {/* Add more menu items here in the future */}
       </nav>
