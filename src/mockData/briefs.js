@@ -7,4 +7,11 @@ export const MOCK_BRIEFS = [
   { id: '6', briefNo: 'BRF-2026-006', projectName: 'กระจายสินค้าให้ Influencer', client: 'ไดสัน', brand: 'แฮร์แคร์', briefType: 'เรทการ์ด', status: 'Proposal', salesOwner: 'สมศักดิ์', createdDate: '2026-06-20', updatedDate: '2026-06-25' },
   { id: '7', briefNo: 'BRF-2026-007', projectName: 'แผนจัดการภาวะวิกฤต', client: 'โตโยต้า', brand: 'คอร์ปอเรท', briefType: 'มาตรฐาน', status: 'Dealsheet', salesOwner: 'สมชาย', createdDate: '2026-06-28', updatedDate: '2026-06-29' },
   { id: '8', briefNo: 'BRF-2026-008', projectName: 'คอลเลกชันหน้าหนาว', client: 'ยูนิโคล่', brand: 'ไลฟ์แวร์', briefType: 'มาตรฐาน', status: 'Draft', salesOwner: 'สมหญิง', createdDate: '2026-07-05', updatedDate: '2026-07-05' },
+  { id: '9', briefNo: 'BRF-2026-009', projectName: 'โปรโมตเกมใหม่', client: 'การีนา', brand: 'RoV', briefType: 'แพ็กเกจรวม', status: 'Brief', salesOwner: 'สมศักดิ์', createdDate: '2026-07-06', updatedDate: '2026-07-06' },
+  { id: '10', briefNo: 'BRF-2026-010', projectName: 'โปรโมชั่นกลางปี', client: 'ช้อปปี้', brand: 'ช้อปปี้เพย์', briefType: 'มาตรฐาน', status: 'Dealsheet', salesOwner: 'สมชาย', createdDate: '2026-07-07', updatedDate: '2026-07-07' },
+  { id: '11', briefNo: 'BRF-2026-011', projectName: 'แคมเปญเพื่อสังคม', client: 'บางจาก', brand: 'องค์กร', briefType: 'มาตรฐาน', status: 'Proposal', salesOwner: 'สมหญิง', createdDate: '2026-07-08', updatedDate: '2026-07-08' },
+  { id: '12', briefNo: 'BRF-2026-012', projectName: 'ลดราคาเครื่องใช้ไฟฟ้า', client: 'โฮมโปร', brand: 'โฮมโปร', briefType: 'แพ็กเกจรวม', status: 'Brief', salesOwner: 'สมศักดิ์', createdDate: '2026-07-09', updatedDate: '2026-07-09' },
+  { id: '13', briefNo: 'BRF-2026-013', projectName: 'แคมเปญวันแม่', client: 'เซ็นทรัล', brand: 'ห้างสรรพสินค้า', briefType: 'เรทการ์ด', status: 'Draft', salesOwner: 'สมชาย', createdDate: '2026-07-10', updatedDate: '2026-07-10' },
+  { id: '14', briefNo: 'BRF-2026-014', projectName: 'เปิดตัวเมนูใหม่', client: 'แมคโดนัลด์', brand: 'แมคคาเฟ่', briefType: 'มาตรฐาน', status: 'Dealsheet', salesOwner: 'สมหญิง', createdDate: '2026-07-11', updatedDate: '2026-07-11' },
+  { id: '15', briefNo: 'BRF-2026-015', projectName: 'แพ็กเกจมือถือ 5G', client: 'เอไอเอส', brand: '5G Max', briefType: 'แพ็กเกจรวม', status: 'Proposal', salesOwner: 'สมศักดิ์', createdDate: '2026-07-12', updatedDate: '2026-07-12' }
 ];

@@ -25,7 +25,7 @@ export default function Sidebar() {
           } ${isCollapsed ? 'justify-center' : ''}`}
         >
           <Home02 className="w-5 h-5 shrink-0" />
-          {!isCollapsed && <span className="truncate">Home</span>}
+          {!isCollapsed && <span className="truncate">หน้าแรก</span>}
         </Link>
         <Link 
           to="/brief" 
@@ -35,7 +35,7 @@ export default function Sidebar() {
           } ${isCollapsed ? 'justify-center' : ''}`}
         >
           <Briefcase01 className="w-5 h-5 shrink-0" />
-          {!isCollapsed && <span className="truncate">Brief</span>}
+          {!isCollapsed && <span className="truncate">บรีฟ</span>}
         </Link>
         <Link 
           to="/client" 
@@ -45,7 +45,7 @@ export default function Sidebar() {
           } ${isCollapsed ? 'justify-center' : ''}`}
         >
           <Building02 className="w-5 h-5 shrink-0" />
-          {!isCollapsed && <span className="truncate">Client</span>}
+          {!isCollapsed && <span className="truncate">ลูกค้า</span>}
         </Link>
         {/* Add more menu items here in the future */}
       </nav>
@@ -53,7 +53,7 @@ export default function Sidebar() {
       <div className={`p-4 border-t border-gray-800 flex ${isCollapsed ? 'flex-col items-center gap-4' : 'items-center justify-between gap-2'}`}>
         {!isCollapsed ? (
           <div className="text-sm text-gray-500 overflow-hidden">
-            <p className="truncate">Logged in as</p>
+            <p className="truncate">เข้าสู่ระบบโดย</p>
             <p className="font-medium text-gray-300 truncate">Sales User</p>
           </div>
         ) : (

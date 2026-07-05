@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Users01 } from '@untitledui/icons';
 import DashboardMetrics from './dashboard/DashboardMetrics';
 import DashboardBriefTable from './dashboard/DashboardBriefTable';
@@ -8,6 +8,13 @@ const ROLES = ['Sales', 'Buyer', 'Planner'];
 
 export default function DashboardHome() {
   const [currentRole, setCurrentRole] = useState('Buyer'); // Default role for demo
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    setIsLoading(true);
+    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, [currentRole]);
 
   return (
     <div className="p-8 max-w-[1400px] mx-auto space-y-6">
@@ -15,15 +22,15 @@ export default function DashboardHome() {
       {/* Header & Role Selector */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div>
-          <h1 className="text-2xl font-semibold text-text-primary font-title">Brief Management Home</h1>
-          <p className="text-sm text-text-secondary mt-1">Track your active briefs, prioritize urgent tasks, and stay on top of every assignment with a personalized dashboard.</p>
+          <h1 className="text-2xl font-semibold text-text-primary font-title">หน้าแรก (Brief Management Home)</h1>
+          <p className="text-sm text-text-secondary mt-1">ติดตามบรีฟที่กำลังดำเนินการ, จัดลำดับความสำคัญของงานด่วน, และจัดการทุกงานของคุณด้วยแดชบอร์ดส่วนตัว</p>
         </div>
         
         {/* Prototype Only: Role Simulator */}
         <div className="bg-brand-50 border border-brand-200 p-2.5 rounded-lg flex items-center gap-3">
           <div className="flex items-center gap-2 text-brand-700 text-sm font-medium">
             <Users01 className="w-4 h-4" />
-            Simulate Role:
+            จำลองการเข้าใช้ด้วยสิทธิ์:
           </div>
           <select 
             value={currentRole}
@@ -40,12 +47,14 @@ export default function DashboardHome() {
       <DashboardMetrics 
         briefs={MOCK_DASHBOARD_DATA} 
         slaStats={MOCK_SLA_STATS} 
-        currentRole={currentRole} 
+        currentRole={currentRole}
+        isLoading={isLoading}
       />
       
       <DashboardBriefTable 
         briefs={MOCK_DASHBOARD_DATA} 
         currentRole={currentRole}
+        isRoleLoading={isLoading}
       />
 
     </div>
