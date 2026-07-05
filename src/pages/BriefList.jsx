@@ -1,5 +1,10 @@
 import React, { useState, useMemo } from 'react';
-import { SearchMd, Plus, Eye, Edit02, Copy01, Calendar, FilterLines } from '@untitledui/icons';
+import { useNavigate } from 'react-router-dom';
+import { SearchMd, Plus, Eye, Edit02, Copy01 } from '@untitledui/icons';
+import { Button } from '../components/base/buttons/button';
+import { Input } from '../components/base/input/input';
+import { NativeSelect } from '../components/base/select/select-native';
+import { Badge } from '../components/base/badges/badges';
 
 const MOCK_BRIEFS = [
   { id: '1', briefNo: 'BRF-2026-001', projectName: 'Summer Campaign', client: 'Coca Cola', brand: 'Coke', briefType: 'Standard', status: 'Draft', salesOwner: 'John Doe', createdDate: '2026-07-01', updatedDate: '2026-07-02' },
@@ -13,36 +18,42 @@ const MOCK_BRIEFS = [
 ];
 
 const STATUS_COLORS = {
-  'Draft': 'bg-gray-100 text-status-draft border-gray-200',
-  'New': 'bg-blue-50 text-status-new border-blue-200',
-  'Waiting Review': 'bg-amber-50 text-status-waiting border-amber-200',
-  'Assigned': 'bg-primary-soft text-status-assigned border-primary/20',
-  'In Progress': 'bg-cyan-50 text-status-in-progress border-cyan-200',
-  'Completed': 'bg-green-50 text-status-completed border-green-200',
-  'Rejected': 'bg-red-50 text-status-rejected border-red-200',
+  'Draft': 'gray',
+  'New': 'blue',
+  'Waiting Review': 'warning',
+  'Assigned': 'purple',
+  'In Progress': 'sky',
+  'Completed': 'success',
+  'Rejected': 'error',
 };
 
-const Badge = ({ status }) => {
-  const colorClass = STATUS_COLORS[status] || 'bg-gray-100 text-gray-700 border-gray-200';
+const StatusBadge = ({ status }) => {
+  const color = STATUS_COLORS[status] || 'gray';
   return (
-    <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium border ${colorClass}`}>
+    <Badge color={color} size="md" type="color">
       {status}
-    </span>
+    </Badge>
   );
 };
 
 export default function BriefList() {
-  const [briefs, setBriefs] = useState(MOCK_BRIEFS);
+  const navigate = useNavigate();
+  const [briefs] = useState(MOCK_BRIEFS);
   
   // Filters state
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
   const [typeFilter, setTypeFilter] = useState('All');
+  const [saleFilter, setSaleFilter] = useState('All');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
+  
+  const uniqueSalesOwners = useMemo(() => {
+    return [...new Set(MOCK_BRIEFS.map(b => b.salesOwner))];
+  }, []);
 
   // Handlers
-  const handleCreate = () => alert('Navigate to Create Brief page');
+  const handleCreate = () => navigate('/create-brief');
   const handleView = (id) => alert(`Navigate to View Brief page for ID: ${id}`);
   const handleEdit = (id) => alert(`Navigate to Edit Brief page for ID: ${id}`);
   const handleDuplicate = (id) => alert(`Duplicate Brief ID: ${id}`);
@@ -63,15 +74,18 @@ export default function BriefList() {
       // Type
       const typeMatch = typeFilter === 'All' || b.briefType === typeFilter;
       
+      // Sale
+      const saleMatch = saleFilter === 'All' || b.salesOwner === saleFilter;
+      
       // Date
       const fromMatch = !dateFrom || new Date(b.createdDate) >= new Date(dateFrom);
       const toMatch = !dateTo || new Date(b.createdDate) <= new Date(dateTo);
 
-      return searchMatch && statusMatch && typeMatch && fromMatch && toMatch;
+      return searchMatch && statusMatch && typeMatch && saleMatch && fromMatch && toMatch;
     });
-  }, [briefs, search, statusFilter, typeFilter, dateFrom, dateTo]);
+  }, [briefs, search, statusFilter, typeFilter, saleFilter, dateFrom, dateTo]);
 
-  // Summary counts (based on all briefs or filtered briefs? Usually all briefs for summary, but let's do all briefs so they don't jump around)
+  // Summary counts
   const totalCount = briefs.length;
   const draftCount = briefs.filter(b => b.status === 'Draft').length;
   const waitingCount = briefs.filter(b => b.status === 'Waiting Review').length;
@@ -85,13 +99,9 @@ export default function BriefList() {
           <h1 className="text-2xl font-semibold text-text-primary font-title">Brief Management</h1>
           <p className="text-sm text-text-secondary mt-1">Manage campaign briefs from creation to approval</p>
         </div>
-        <button 
-          onClick={handleCreate}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-primary hover:bg-primary-hover text-white rounded-lg font-medium transition-colors shadow-sm"
-        >
-          <Plus className="w-5 h-5" />
+        <Button variant="primary" onClick={handleCreate} icon={Plus}>
           Create Brief
-        </button>
+        </Button>
       </div>
 
       {/* 2. Summary Cards */}
@@ -111,59 +121,65 @@ export default function BriefList() {
 
       {/* 3. Search and Filters */}
       <div className="bg-surface p-5 rounded-xl border border-border shadow-sm space-y-4">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-          <div className="md:col-span-4 relative">
-            <SearchMd className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input 
-              type="text" 
-              placeholder="Search by Brief No, Project, Client, Brand..." 
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
+          <div className="w-full">
+            <Input 
+              icon={SearchMd}
+              placeholder="Search Brief No, Project..." 
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm"
+              onChange={(val) => setSearch(val)}
             />
           </div>
-          <div className="md:col-span-2">
-            <select 
+          <div className="w-full">
+            <NativeSelect 
+              value={saleFilter} 
+              onChange={(e) => setSaleFilter(e.target.value)}
+              options={[
+                { label: 'All Sales', value: 'All' },
+                ...uniqueSalesOwners.map(owner => ({ label: owner, value: owner }))
+              ]}
+            />
+          </div>
+          <div className="w-full">
+            <NativeSelect 
               value={statusFilter} 
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm appearance-none bg-white"
-            >
-              <option value="All">All Statuses</option>
-              <option value="Draft">Draft</option>
-              <option value="New">New</option>
-              <option value="Waiting Review">Waiting Sales Co Review</option>
-              <option value="Rejected">Rejected</option>
-              <option value="Assigned">Assigned</option>
-              <option value="In Progress">In Progress</option>
-              <option value="Completed">Completed</option>
-            </select>
-          </div>
-          <div className="md:col-span-2">
-            <select 
-              value={typeFilter} 
-              onChange={(e) => setTypeFilter(e.target.value)}
-              className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm appearance-none bg-white"
-            >
-              <option value="All">All Types</option>
-              <option value="Standard">Standard</option>
-              <option value="Ratecard">Ratecard</option>
-              <option value="Combined">Combined</option>
-            </select>
-          </div>
-          <div className="md:col-span-2">
-            <input 
-              type="date" 
-              value={dateFrom}
-              onChange={(e) => setDateFrom(e.target.value)}
-              className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-600"
+              options={[
+                { label: 'All Statuses', value: 'All' },
+                { label: 'Draft', value: 'Draft' },
+                { label: 'New', value: 'New' },
+                { label: 'Waiting Sales Co Review', value: 'Waiting Review' },
+                { label: 'Rejected', value: 'Rejected' },
+                { label: 'Assigned', value: 'Assigned' },
+                { label: 'In Progress', value: 'In Progress' },
+                { label: 'Completed', value: 'Completed' },
+              ]}
             />
           </div>
-          <div className="md:col-span-2">
-            <input 
+          <div className="w-full">
+            <NativeSelect 
+              value={typeFilter} 
+              onChange={(e) => setTypeFilter(e.target.value)}
+              options={[
+                { label: 'All Types', value: 'All' },
+                { label: 'Standard', value: 'Standard' },
+                { label: 'Ratecard', value: 'Ratecard' },
+                { label: 'Combined', value: 'Combined' },
+              ]}
+            />
+          </div>
+          <div className="w-full">
+            <Input 
+              type="date" 
+              value={dateFrom}
+              onChange={(val) => setDateFrom(val)}
+            />
+          </div>
+          <div className="w-full">
+            <Input 
               type="date" 
               value={dateTo}
-              onChange={(e) => setDateTo(e.target.value)}
-              className="w-full px-3 py-2 border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary text-sm text-gray-600"
+              onChange={(val) => setDateTo(val)}
             />
           </div>
         </div>
@@ -180,7 +196,7 @@ export default function BriefList() {
                 <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Client / Brand</th>
                 <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Type</th>
                 <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Owner</th>
+                <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Sale</th>
                 <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">Dates</th>
                 <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider text-right">Action</th>
               </tr>
@@ -217,7 +233,7 @@ export default function BriefList() {
                         {brief.briefType}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <Badge status={brief.status} />
+                        <StatusBadge status={brief.status} />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
                         {brief.salesOwner}
@@ -228,31 +244,29 @@ export default function BriefList() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <div className="flex items-center justify-end gap-2">
-                          <button 
+                          <Button 
+                            variant="tertiary"
+                            size="sm"
                             onClick={() => handleView(brief.id)}
-                            className="p-1.5 text-gray-400 hover:text-primary hover:bg-primary-soft rounded-md transition-colors"
+                            icon={Eye}
                             title="View"
-                          >
-                            <Eye className="w-4 h-4" />
-                          </button>
-                          
+                          />
                           {canEdit && (
-                            <button 
+                            <Button 
+                              variant="tertiary"
+                              size="sm"
                               onClick={() => handleEdit(brief.id)}
-                              className="p-1.5 text-gray-400 hover:text-primary hover:bg-primary-soft rounded-md transition-colors"
+                              icon={Edit02}
                               title="Edit"
-                            >
-                              <Edit02 className="w-4 h-4" />
-                            </button>
+                            />
                           )}
-                          
-                          <button 
+                          <Button 
+                            variant="tertiary"
+                            size="sm"
                             onClick={() => handleDuplicate(brief.id)}
-                            className="p-1.5 text-gray-400 hover:text-primary hover:bg-primary-soft rounded-md transition-colors"
+                            icon={Copy01}
                             title="Duplicate"
-                          >
-                            <Copy01 className="w-4 h-4" />
-                          </button>
+                          />
                         </div>
                       </td>
                     </tr>
