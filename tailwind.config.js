@@ -6,6 +6,10 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        title: ['"Prompt"', 'sans-serif'],
+        sans: ['"Prompt"', 'system-ui', '-apple-system', 'sans-serif'],
+      },
       colors: {
         primary: {
           DEFAULT: 'var(--color-primary)',

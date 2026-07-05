@@ -1,7 +1,13 @@
+import BriefList from './pages/BriefList'
+import Sidebar from './components/Sidebar'
+
 function App() {
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
-      <h1>IS Prototype</h1>
+    <div className="flex h-screen overflow-hidden bg-page-background">
+      <Sidebar />
+      <main className="flex-1 overflow-y-auto">
+        <BriefList />
+      </main>
     </div>
   )
 }
