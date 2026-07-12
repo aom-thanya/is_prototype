@@ -4,12 +4,29 @@ import { SearchMd, Plus, Eye } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
 import { Input } from '../components/base/input/input';
 
-import { MOCK_CLIENTS } from '../mockData/clients';
 
 export default function ClientList() {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [isFiltering, setIsFiltering] = useState(false);
+  const [clients, setClients] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchClients = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch('/api/clients');
+        const data = await res.json();
+        setClients(data);
+      } catch (error) {
+        console.error("Failed to fetch clients:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchClients();
+  }, []);
 
   useEffect(() => {
     setIsFiltering(true);
@@ -17,7 +34,7 @@ export default function ClientList() {
     return () => clearTimeout(timer);
   }, [search]);
 
-  const filteredClients = MOCK_CLIENTS.filter(client => 
+  const filteredClients = clients.filter(client => 
     client.clientId.toLowerCase().includes(search.toLowerCase()) ||
     client.companyNameTh.toLowerCase().includes(search.toLowerCase())
   );
@@ -62,8 +79,8 @@ export default function ClientList() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {isFiltering ? (
-                Array.from({ length: 5 }).map((_, i) => (
+              {isLoading || isFiltering ? (
+                Array.from({ length: 3 }).map((_, i) => (
                   <tr key={i} className="animate-pulse">
                     <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
                     <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-48"></div></td>

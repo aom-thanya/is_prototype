@@ -2,18 +2,34 @@ import React, { useState, useEffect } from 'react';
 import { Users01 } from '@untitledui/icons';
 import DashboardMetrics from './dashboard/DashboardMetrics';
 import DashboardBriefTable from './dashboard/DashboardBriefTable';
-import { MOCK_DASHBOARD_DATA, MOCK_SLA_STATS } from '../mockData/dashboardData';
 
 const ROLES = ['Sales', 'Buyer', 'Planner'];
 
 export default function DashboardHome() {
   const [currentRole, setCurrentRole] = useState('Buyer'); // Default role for demo
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [dashboardData, setDashboardData] = useState([]);
+  const [slaStats, setSlaStats] = useState({});
 
   useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), 500);
-    return () => clearTimeout(timer);
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const [briefsRes, statsRes] = await Promise.all([
+          fetch('/api/dashboard/briefs'),
+          fetch('/api/dashboard/stats')
+        ]);
+        const briefsData = await briefsRes.json();
+        const statsData = await statsRes.json();
+        setDashboardData(briefsData);
+        setSlaStats(statsData);
+      } catch (error) {
+        console.error("Failed to fetch dashboard data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
   }, [currentRole]);
 
   return (
@@ -45,14 +61,14 @@ export default function DashboardHome() {
       </div>
 
       <DashboardMetrics 
-        briefs={MOCK_DASHBOARD_DATA} 
-        slaStats={MOCK_SLA_STATS} 
+        briefs={dashboardData} 
+        slaStats={slaStats} 
         currentRole={currentRole}
         isLoading={isLoading}
       />
       
       <DashboardBriefTable 
-        briefs={MOCK_DASHBOARD_DATA} 
+        briefs={dashboardData} 
         currentRole={currentRole}
         isRoleLoading={isLoading}
       />

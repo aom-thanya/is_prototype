@@ -6,7 +6,6 @@ import { Input } from '../components/base/input/input';
 import { NativeSelect } from '../components/base/select/select-native';
 import { Badge } from '../components/base/badges/badges';
 
-import { MOCK_BRIEFS } from '../mockData/briefs';
 
 const STATUS_COLORS = {
   'Draft': 'gray',
@@ -26,7 +25,9 @@ const StatusBadge = ({ status }) => {
 
 export default function BriefList() {
   const navigate = useNavigate();
-  const [briefs] = useState(MOCK_BRIEFS);
+  const [briefs, setBriefs] = useState([]);
+  const [summary, setSummary] = useState({ totalCount: 0, draftCount: 0, waitingCount: 0, completedCount: 0 });
+  const [isLoading, setIsLoading] = useState(true);
   
   // Filters state
   const [search, setSearch] = useState('');
@@ -47,10 +48,31 @@ export default function BriefList() {
     const timer = setTimeout(() => setIsFiltering(false), 500);
     return () => clearTimeout(timer);
   }, [search, statusFilter, typeFilter, saleFilter, dateFrom, dateTo]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setIsLoading(true);
+      try {
+        const [briefsRes, summaryRes] = await Promise.all([
+          fetch('/api/briefs'),
+          fetch('/api/briefs/summary')
+        ]);
+        const briefsData = await briefsRes.json();
+        const summaryData = await summaryRes.json();
+        setBriefs(briefsData);
+        setSummary(summaryData);
+      } catch (error) {
+        console.error("Failed to fetch data:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
   
   const uniqueSalesOwners = useMemo(() => {
-    return [...new Set(MOCK_BRIEFS.map(b => b.salesOwner))];
-  }, []);
+    return [...new Set(briefs.map(b => b.salesOwner))];
+  }, [briefs]);
 
   // Handlers
   const handleCreate = () => navigate('/create-brief');
@@ -85,11 +107,7 @@ export default function BriefList() {
     });
   }, [briefs, search, statusFilter, typeFilter, saleFilter, dateFrom, dateTo]);
 
-  // Summary counts
-  const totalCount = briefs.length;
-  const draftCount = briefs.filter(b => b.status === 'Draft').length;
-  const waitingCount = briefs.filter(b => b.status === 'Waiting Review').length;
-  const completedCount = briefs.filter(b => b.status === 'Completed').length;
+  // Summary counts are now fetched from API
 
   // Pagination derived state
   const paginatedBriefs = useMemo(() => {
@@ -135,14 +153,14 @@ export default function BriefList() {
       {/* 2. Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {[
-          { label: 'บรีฟทั้งหมด', value: totalCount },
-          { label: 'Draft', value: draftCount },
-          { label: 'รอตรวจสอบ', value: waitingCount },
-          { label: 'เสร็จสิ้น', value: completedCount },
+          { label: 'บรีฟทั้งหมด', value: summary.totalCount },
+          { label: 'Draft', value: summary.draftCount },
+          { label: 'รอตรวจสอบ', value: summary.waitingCount },
+          { label: 'เสร็จสิ้น', value: summary.completedCount },
         ].map((card, idx) => (
           <div key={idx} className="bg-surface p-5 rounded-xl border border-border shadow-sm flex flex-col gap-1">
             <span className="text-sm font-medium text-text-secondary">{card.label}</span>
-            {isFiltering ? (
+            {isLoading ? (
               <div className="h-8 bg-gray-200 rounded w-16 animate-pulse mt-1"></div>
             ) : (
               <span className="text-2xl font-semibold text-text-primary">{card.value}</span>
@@ -231,7 +249,7 @@ export default function BriefList() {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {isFiltering ? (
+              {isLoading || isFiltering ? (
                 Array.from({ length: Math.min(5, paginatedBriefs.length || 5) }).map((_, i) => <SkeletonRow key={i} />)
               ) : paginatedBriefs.length === 0 ? (
                 <tr>
@@ -317,7 +335,7 @@ export default function BriefList() {
         </div>
         
         {/* 5. Pagination */}
-        {!isFiltering && totalPages > 1 && (
+        {!isLoading && !isFiltering && totalPages > 1 && (
           <div className="flex items-center justify-between bg-white px-4 py-3 border-t border-border sm:px-6">
             <div className="flex flex-1 justify-between sm:hidden">
               <Button color="secondary" onClick={() => setCurrentPage(p => Math.max(1, p - 1))} disabled={currentPage === 1}>ก่อนหน้า</Button>

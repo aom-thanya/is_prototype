@@ -14,6 +14,7 @@ export default function RecommendationList({ recommendations = [] }) {
   const [explainModalCreator, setExplainModalCreator] = useState(null);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [isAlertOpen, setIsAlertOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const toggleSelect = (id) => {
     const newSet = new Set(selectedCreators);
@@ -25,9 +26,30 @@ export default function RecommendationList({ recommendations = [] }) {
     setSelectedCreators(newSet);
   };
 
-  const handleConfirmSubmit = () => {
-    setIsConfirmOpen(false);
-    navigate(`/brief/${id}/planner`);
+  const handleConfirmSubmit = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`/api/workspace/buyer/${id || 'default'}/submit`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          selectedCreators: Array.from(selectedCreators)
+        })
+      });
+      if (response.ok) {
+        setIsConfirmOpen(false);
+        navigate(`/brief/${id}/planner`);
+      } else {
+        console.error("Failed to submit recommendations");
+      }
+    } catch (error) {
+      console.error("Error submitting recommendations:", error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleSubmit = () => {
@@ -165,7 +187,7 @@ export default function RecommendationList({ recommendations = [] }) {
         onConfirm={handleConfirmSubmit}
         title="ส่งข้อมูลให้ Planner?"
         description={`คุณแน่ใจหรือไม่ที่จะส่งรายชื่อครีเอเตอร์ ${selectedCreators.size} คนที่เลือกไว้ให้กับ Planner? ทาง Planner จะได้รับการแจ้งเตือนเพื่อตรวจสอบข้อมูลต่อไป`}
-        confirmText="ยืนยันการส่ง"
+        confirmText={isSubmitting ? "กำลังส่ง..." : "ยืนยันการส่ง"}
         cancelText="ยกเลิก"
         icon={Zap}
       />

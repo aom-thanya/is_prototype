@@ -33,3 +33,9 @@ coverage/
 
 # Misc
 .cache/
+
+# Python Backend
+backend/.venv/
+backend/__pycache__/
+*.py[cod]
+*$py.class

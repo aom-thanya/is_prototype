@@ -5,8 +5,6 @@ import { Button } from '../components/base/buttons/button';
 import PageLoader from '../components/PageLoader';
 import BriefSummarySection from './buyer-workspace/BriefSummarySection';
 import RecommendationList from './buyer-workspace/RecommendationList';
-import { MOCK_PLANNER_DETAILS } from '../mockData/plannerDetails';
-import { MOCK_BUYER_RECOMMENDATIONS } from '../mockData/buyerRecommendations';
 
 export default function BuyerWorkspace() {
   const { id } = useParams();
@@ -17,14 +15,20 @@ export default function BuyerWorkspace() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulate loading data and AI recommendation engine
-    setLoading(true);
-    setTimeout(() => {
-      // In a real app, we fetch based on ID. For prototype, use static mock.
-      setBrief(MOCK_PLANNER_DETAILS);
-      setRecommendations(MOCK_BUYER_RECOMMENDATIONS.recommendedCreators);
-      setLoading(false);
-    }, 800);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/workspace/buyer/${id || 'default'}`);
+        const data = await res.json();
+        setBrief(data.brief);
+        setRecommendations(data.recommendations);
+      } catch (error) {
+        console.error("Failed to fetch buyer workspace data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
   }, [id]);
 
   return (
