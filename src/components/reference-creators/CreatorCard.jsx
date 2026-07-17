@@ -13,7 +13,7 @@ export function CreatorCard({ creator, isSelected, onToggleSelect, onViewProfile
     <div 
       className={`relative flex flex-col p-4 rounded-xl border transition-all cursor-pointer ${
         isSelected 
-          ? 'border-brand-500 bg-brand-50 shadow-sm' 
+          ? 'border-brand-solid bg-[#F4F3FF] shadow-sm' 
           : 'border-border bg-surface hover:shadow-md'
       }`}
       onClick={() => onToggleSelect(creator)}
@@ -21,13 +21,13 @@ export function CreatorCard({ creator, isSelected, onToggleSelect, onViewProfile
       <div className="flex items-start justify-between mb-3">
         <div 
           className={`w-6 h-6 rounded-md border flex items-center justify-center transition-colors ${
-            isSelected ? 'bg-brand-500 border-brand-500' : 'bg-white border-gray-300'
+            isSelected ? 'bg-brand-solid border-brand-solid' : 'bg-white border-gray-300'
           }`}
         >
           {isSelected && <Check className="w-4 h-4 text-white" />}
         </div>
         {creator.similarityScore && (
-          <div className="text-xs font-medium text-brand-700 bg-brand-100 px-2 py-1 rounded-full">
+          <div className="text-xs font-medium text-brand-solid bg-[#F4F3FF] px-2 py-1 rounded-full">
             Similarity {creator.similarityScore}%
           </div>
         )}

@@ -41,14 +41,14 @@ export function ProfileDrawer({ isOpen, onClose, creator, isSelected, onToggleSe
             
             <div className="flex flex-wrap justify-center gap-2 mb-4">
               {creator.categories?.map(tag => (
-                <span key={tag} className="text-xs bg-brand-50 text-brand-700 px-2 py-1 rounded-full font-medium">
+                <span key={tag} className="text-xs bg-[#F4F3FF] text-brand-solid px-2 py-1 rounded-full font-medium">
                   {tag}
                 </span>
               ))}
             </div>
             
             {creator.similarityScore && (
-              <div className="bg-brand-100 text-brand-700 px-4 py-2 rounded-lg text-sm font-semibold w-full max-w-[200px]">
+              <div className="bg-[#F4F3FF] text-brand-solid px-4 py-2 rounded-lg text-sm font-semibold w-full max-w-[200px]">
                 Visual Similarity: {creator.similarityScore}%
               </div>
             )}

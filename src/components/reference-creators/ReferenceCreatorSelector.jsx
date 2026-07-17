@@ -117,7 +117,7 @@ export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSe
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex flex-col bg-gray-50 animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 flex flex-col bg-gray-50 animate-in fade-in slide-in-from-bottom-8 duration-300 ease-out">
       
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-border shadow-sm">
@@ -141,13 +141,13 @@ export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSe
             {/* Tabs */}
             <div className="flex gap-4 border-b border-gray-200 mb-6">
               <button 
-                className={`pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'username' ? 'border-brand-600 text-brand-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                className={`pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'username' ? 'border-brand-solid text-brand-solid' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
                 onClick={() => setActiveTab('username')}
               >
                 Search by Username
               </button>
               <button 
-                className={`pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'photo' ? 'border-brand-600 text-brand-700' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                className={`pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'photo' ? 'border-brand-solid text-brand-solid' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
                 onClick={() => setActiveTab('photo')}
               >
                 Search by Photo
@@ -188,7 +188,7 @@ export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSe
                       <p className="text-sm font-medium text-gray-800 mb-1">{photoFile.name}</p>
                       <div className="flex gap-3 mb-6">
                         <input type="file" accept="image/*" id="photo-replace" className="hidden" onChange={handlePhotoUpload} />
-                        <label htmlFor="photo-replace" className="text-sm text-brand-600 hover:text-brand-700 font-medium cursor-pointer">Replace</label>
+                        <label htmlFor="photo-replace" className="text-sm text-brand-solid hover:text-brand-solid_hover font-medium cursor-pointer">Replace</label>
                         <button onClick={() => { setPhotoFile(null); setPhotoPreview(null); setResults([]); }} className="text-sm text-error font-medium hover:text-error-600">Remove</button>
                       </div>
                       <Button color="primary" onClick={handlePhotoSearch} isLoading={isPhotoSearching}>Find Similar Creators</Button>
@@ -264,7 +264,7 @@ export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSe
             {selectedCreators.length > 0 && (
               <button 
                 onClick={() => setIsTrayExpanded(!isTrayExpanded)}
-                className="text-sm text-brand-600 hover:text-brand-700 font-medium"
+                className="text-sm text-brand-solid hover:text-brand-solid_hover font-medium"
               >
                 {isTrayExpanded ? 'Hide' : 'Review'}
               </button>
