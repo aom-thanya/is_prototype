@@ -43,8 +43,6 @@ export default function PlannerWorkspace() {
               <span className="w-1 h-1 rounded-full bg-gray-300"></span>
               <span className="font-medium text-text-primary">{data.clientName} ({data.brand})</span>
               <span className="w-1 h-1 rounded-full bg-gray-300"></span>
-              <span>Type: {data.briefType}</span>
-              <span className="w-1 h-1 rounded-full bg-gray-300"></span>
               <span>Due: <span className="font-medium text-error-600">{data.dueDate}</span></span>
             </div>
             <div className="flex flex-wrap items-center gap-4 mt-2 text-xs text-text-tertiary">

@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button } from '../../components/base/buttons/button';
 import { Plus, Download01 } from '@untitledui/icons';
 
-export default function DocumentsTab({ documents }) {
-  if (!documents) return null;
+export default function DocumentsTab() {
+  const { id } = useParams();
+  const [documents, setDocuments] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchDocuments = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`/api/clients/${id}/documents`);
+        if (!res.ok) throw new Error('Failed to fetch documents');
+        const data = await res.json();
+        setDocuments(data);
+      } catch (err) {
+        console.error("Failed to fetch documents:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchDocuments();
+  }, [id]);
 
   return (
     <div className="space-y-6">
@@ -27,7 +47,17 @@ export default function DocumentsTab({ documents }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {documents.length === 0 ? (
+              {isLoading ? (
+                Array.from({ length: 3 }).map((_, i) => (
+                  <tr key={i} className="animate-pulse">
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-48"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-32"></div></td>
+                    <td className="px-6 py-4"><div className="h-8 bg-gray-200 rounded w-24"></div></td>
+                    <td className="px-6 py-4"><div className="h-8 bg-gray-200 rounded w-10 ml-auto"></div></td>
+                  </tr>
+                ))
+              ) : documents.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="px-6 py-12 text-center text-text-secondary">
                     No documents uploaded yet.

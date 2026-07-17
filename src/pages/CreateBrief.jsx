@@ -27,8 +27,7 @@ export default function CreateBrief() {
   
   // State
   const [formData, setFormData] = useState({
-    projectName: '', client: '', brand: '', campaignName: '', product: '', industry: '', objectives: [], description: '',
-    briefType: '', platforms: [],
+    projectName: '', client: '', brand: '', campaignName: '', product: '', industry: '', objectives: [], description: '', platforms: [],
     startDate: '', endDate: '', proposalDate: '', contentDate: '', publishDate: '',
     budget: '', currency: 'THB', budgetRemark: '',
     gender: '', ageRange: '', region: '', interest: '', incomeLevel: '', audienceDesc: '',
@@ -121,7 +120,6 @@ export default function CreateBrief() {
     if (!formData.client) newErrors.client = 'Client is required';
     if (!formData.brand) newErrors.brand = 'Brand is required';
     if (formData.objectives.length === 0) newErrors.objectives = 'At least one Campaign Objective is required';
-    if (!formData.briefType) newErrors.briefType = 'Brief Type is required';
     
     if (!formData.budget) newErrors.budget = 'Budget is required';
     else if (Number(formData.budget) <= 0) newErrors.budget = 'Budget must be greater than 0';
@@ -153,7 +151,7 @@ export default function CreateBrief() {
   };
 
   return (
-    <div className="relative pb-24">
+    <div className="relative">
       {toast && (
         <div className={`fixed top-4 right-4 px-4 py-3 rounded-lg shadow-lg flex items-center gap-2 z-50 animate-in slide-in-from-top-2 text-white ${toast.type === 'success' ? 'bg-success' : 'bg-error'}`}>
           {toast.type === 'success' ? <CheckCircle className="w-5 h-5"/> : <AlertCircle className="w-5 h-5"/>}
@@ -161,7 +159,7 @@ export default function CreateBrief() {
         </div>
       )}
 
-      <div className="p-8 max-w-[1400px] mx-auto space-y-6">
+      <div className="p-8 max-w-[1400px] mx-auto space-y-6 pb-32">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button color="tertiary" size="sm" iconLeading={ArrowLeft} onClick={() => navigate('/brief')} />
@@ -245,19 +243,6 @@ export default function CreateBrief() {
           </div>
         </SectionCard>
 
-        {/* Section 2: Brief Type */}
-        <SectionCard title="2. Brief Type">
-          <div className="space-y-6">
-            <div>
-              <RadioGroup label="Brief Type" isRequired value={formData.briefType} onChange={(val) => handleChange('briefType', val)} isInvalid={!!errors.briefType} className="flex gap-4">
-                {['Standard', 'Ratecard', 'Combined'].map(type => (
-                  <RadioButton key={type} value={type} label={type} />
-                ))}
-              </RadioGroup>
-              {errors.briefType && <p className="text-error text-xs mt-2">{errors.briefType}</p>}
-            </div>
-          </div>
-        </SectionCard>
 
         {/* Section 3: Timeline */}
         <SectionCard title="3. Timeline">

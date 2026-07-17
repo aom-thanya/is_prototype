@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, Edit02 } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
-import { GET_MOCK_CLIENT } from '../mockData/clientDetails';
 
 // Import Tab Components
 import OverviewTab from './client-details/OverviewTab';
@@ -30,15 +29,66 @@ export default function ClientDetails() {
   const [client, setClient] = useState(null);
   const [activeTab, setActiveTab] = useState('overview');
 
+  const [error, setError] = useState(null);
+
   useEffect(() => {
-    // Simulate fetch.
-    setClient(GET_MOCK_CLIENT(id));
+    const fetchClient = async () => {
+      try {
+        const res = await fetch(`/api/clients/${id}`);
+        if (!res.ok) {
+          throw new Error('Failed to fetch client details');
+        }
+        const data = await res.json();
+        setClient(data);
+      } catch (err) {
+        console.error("Failed to fetch client:", err);
+        setError(err.message);
+      }
+    };
+    
+    fetchClient();
   }, [id]);
+
+  if (error) {
+    return (
+      <div className="p-8 flex items-center justify-center min-h-full">
+        <p className="text-error-500">{error}</p>
+      </div>
+    );
+  }
 
   if (!client) {
     return (
-      <div className="p-8 flex items-center justify-center min-h-full">
-        <p className="text-text-secondary">Loading client data...</p>
+      <div className="p-8 max-w-[1400px] mx-auto space-y-6">
+        {/* Header Skeleton */}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center gap-4">
+            <div className="w-10 h-10 bg-gray-200 rounded-lg animate-pulse" />
+            <div>
+              <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
+              <div className="h-4 w-64 bg-gray-200 rounded mt-2 animate-pulse" />
+            </div>
+          </div>
+          <div className="w-32 h-10 bg-gray-200 rounded-lg animate-pulse" />
+        </div>
+
+        {/* Tabs Skeleton */}
+        <div className="border-b border-border">
+          <div className="flex space-x-8 pb-px">
+            {[1, 2, 3, 4, 5, 6, 7].map((i) => (
+              <div key={i} className="h-10 w-24 bg-gray-200 rounded-t animate-pulse mb-1" />
+            ))}
+          </div>
+        </div>
+
+        {/* Content Skeleton */}
+        <div className="pt-4 pb-24 space-y-6">
+          <div className="h-48 w-full bg-gray-100 rounded-xl animate-pulse" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="h-64 bg-gray-100 rounded-xl animate-pulse" />
+            <div className="h-64 bg-gray-100 rounded-xl animate-pulse" />
+          </div>
+        </div>
       </div>
     );
   }
@@ -86,12 +136,12 @@ export default function ClientDetails() {
       {/* Tab Content */}
       <div className="pt-4 pb-24">
         {activeTab === 'overview' && <OverviewTab client={client} />}
-        {activeTab === 'contacts' && <ContactsTab contacts={client.contacts} />}
-        {activeTab === 'brands' && <BrandsTab brands={client.brands} />}
-        {activeTab === 'campaign_history' && <CampaignHistoryTab history={client.campaignHistory} />}
-        {activeTab === 'client_knowledge' && <ClientKnowledgeTab knowledge={client.knowledge} />}
-        {activeTab === 'competitors' && <CompetitorsTab competitors={client.competitors} />}
-        {activeTab === 'documents' && <DocumentsTab documents={client.documents} />}
+        {activeTab === 'contacts' && <ContactsTab />}
+        {activeTab === 'brands' && <BrandsTab />}
+        {activeTab === 'campaign_history' && <CampaignHistoryTab />}
+        {activeTab === 'client_knowledge' && <ClientKnowledgeTab />}
+        {activeTab === 'competitors' && <CompetitorsTab />}
+        {activeTab === 'documents' && <DocumentsTab />}
       </div>
     </div>
   );

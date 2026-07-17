@@ -1,9 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button } from '../../components/base/buttons/button';
 import { Plus } from '@untitledui/icons';
 
-export default function BrandsTab({ brands }) {
-  if (!brands) return null;
+export default function BrandsTab() {
+  const { id } = useParams();
+  const [brands, setBrands] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`/api/clients/${id}/brands`);
+        if (!res.ok) throw new Error('Failed to fetch brands');
+        const data = await res.json();
+        setBrands(data);
+      } catch (err) {
+        console.error("Failed to fetch brands:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchBrands();
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="h-6 w-24 bg-gray-200 rounded animate-pulse" />
+          <div className="h-9 w-32 bg-gray-200 rounded-lg animate-pulse" />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {[1, 2].map(i => (
+            <div key={i} className="bg-surface rounded-xl border border-border p-6 h-[250px] animate-pulse">
+              <div className="h-6 bg-gray-200 rounded w-1/2 mb-2" />
+              <div className="h-4 bg-gray-200 rounded w-1/3 mb-8" />
+              <div className="space-y-4">
+                <div>
+                  <div className="h-3 bg-gray-200 rounded w-1/4 mb-1" />
+                  <div className="h-4 bg-gray-200 rounded w-3/4" />
+                </div>
+                <div>
+                  <div className="h-3 bg-gray-200 rounded w-1/4 mb-1" />
+                  <div className="h-4 bg-gray-200 rounded w-3/4" />
+                </div>
+                <div>
+                  <div className="h-3 bg-gray-200 rounded w-1/4 mb-1" />
+                  <div className="h-4 bg-gray-200 rounded w-3/4" />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">

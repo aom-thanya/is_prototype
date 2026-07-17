@@ -1,9 +1,29 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button } from '../../components/base/buttons/button';
 import { Plus } from '@untitledui/icons';
 
-export default function ContactsTab({ contacts }) {
-  if (!contacts) return null;
+export default function ContactsTab() {
+  const { id } = useParams();
+  const [contacts, setContacts] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchContacts = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`/api/clients/${id}/contacts`);
+        if (!res.ok) throw new Error('Failed to fetch contacts');
+        const data = await res.json();
+        setContacts(data);
+      } catch (err) {
+        console.error("Failed to fetch contacts:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchContacts();
+  }, [id]);
 
   return (
     <div className="space-y-6">
@@ -28,7 +48,18 @@ export default function ContactsTab({ contacts }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {contacts.length === 0 ? (
+              {isLoading ? (
+                Array.from({ length: 3 }).map((_, i) => (
+                  <tr key={i} className="animate-pulse">
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-32"></div></td>
+                    <td className="px-6 py-4"><div className="h-8 bg-gray-200 rounded w-24"></div></td>
+                    <td className="px-6 py-4"><div className="h-10 bg-gray-200 rounded w-48"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-16"></div></td>
+                    <td className="px-6 py-4"><div className="h-6 bg-gray-200 rounded-full w-12"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-full"></div></td>
+                  </tr>
+                ))
+              ) : contacts.length === 0 ? (
                 <tr>
                   <td colSpan={6} className="px-6 py-12 text-center text-text-secondary">
                     No contacts added yet.

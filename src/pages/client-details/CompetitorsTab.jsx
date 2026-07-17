@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Plus, Edit02, Trash01, LinkExternal02 } from '@untitledui/icons';
 import { Button } from '../../components/base/buttons/button';
 import { Input } from '../../components/base/input/input';
 import { TextArea } from '../../components/base/textarea/textarea';
 
-export default function CompetitorsTab({ competitors: initialCompetitors = [] }) {
-  const [competitors, setCompetitors] = useState(initialCompetitors);
+export default function CompetitorsTab() {
+  const { id } = useParams();
+  const [competitors, setCompetitors] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
   const [editForm, setEditForm] = useState(null);
+
+  useEffect(() => {
+    const fetchCompetitors = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`/api/clients/${id}/competitors`);
+        if (!res.ok) throw new Error('Failed to fetch competitors');
+        const data = await res.json();
+        setCompetitors(data);
+      } catch (err) {
+        console.error("Failed to fetch competitors:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchCompetitors();
+  }, [id]);
 
   const startEdit = (comp) => {
     setEditingId(comp.id);
@@ -44,9 +64,20 @@ export default function CompetitorsTab({ competitors: initialCompetitors = [] })
         </Button>
       </div>
 
-      {competitors.length === 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 gap-6">
+          {[1, 2].map(i => (
+            <div key={i} className="bg-surface rounded-xl border border-border shadow-sm p-6 h-64 animate-pulse">
+              <div className="h-6 bg-gray-200 rounded w-1/4 mb-2" />
+              <div className="h-4 bg-gray-200 rounded w-1/3 mb-6" />
+              <div className="h-4 bg-gray-200 rounded w-full mb-2" />
+              <div className="h-4 bg-gray-200 rounded w-3/4" />
+            </div>
+          ))}
+        </div>
+      ) : competitors.length === 0 ? (
         <div className="p-12 text-center bg-surface border border-border rounded-xl text-text-secondary">
-          No competitors added yet. Add competitors to help the team understand the market context.
+          No competitors added yet. Add competitors to help the market context.
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-6">

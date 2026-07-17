@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List
@@ -81,6 +81,58 @@ MOCK_CLIENTS = [
 async def get_clients():
     time.sleep(0.5)
     return MOCK_CLIENTS
+
+with open("client_details_data.json", "r", encoding="utf-8") as f:
+    client_details_data = json.load(f)
+
+@app.get("/api/clients/{client_id}")
+async def get_client_details(client_id: str):
+    time.sleep(0.5)
+    if client_id in client_details_data:
+        return client_details_data[client_id]
+    raise HTTPException(status_code=404, detail="Client not found")
+
+@app.get("/api/clients/{client_id}/brands")
+async def get_client_brands(client_id: str):
+    time.sleep(0.5)
+    if client_id in client_details_data:
+        return client_details_data[client_id].get("brands", [])
+    raise HTTPException(status_code=404, detail="Client not found")
+
+@app.get("/api/clients/{client_id}/campaign_history")
+async def get_client_campaign_history(client_id: str):
+    time.sleep(0.5)
+    if client_id in client_details_data:
+        return client_details_data[client_id].get("campaignHistory", [])
+    raise HTTPException(status_code=404, detail="Client not found")
+
+@app.get("/api/clients/{client_id}/knowledge")
+async def get_client_knowledge(client_id: str):
+    time.sleep(0.5)
+    if client_id in client_details_data:
+        return client_details_data[client_id].get("knowledge", None)
+    raise HTTPException(status_code=404, detail="Client not found")
+
+@app.get("/api/clients/{client_id}/competitors")
+async def get_client_competitors(client_id: str):
+    time.sleep(0.5)
+    if client_id in client_details_data:
+        return client_details_data[client_id].get("competitors", [])
+    raise HTTPException(status_code=404, detail="Client not found")
+
+@app.get("/api/clients/{client_id}/documents")
+async def get_client_documents(client_id: str):
+    time.sleep(0.5)
+    if client_id in client_details_data:
+        return client_details_data[client_id].get("documents", [])
+    raise HTTPException(status_code=404, detail="Client not found")
+
+@app.get("/api/clients/{client_id}/contacts")
+async def get_client_contacts(client_id: str):
+    time.sleep(0.5)
+    if client_id in client_details_data:
+        return client_details_data[client_id].get("contacts", [])
+    raise HTTPException(status_code=404, detail="Client not found")
 
 with open("buyer_workspace_data.json", "r", encoding="utf-8") as f:
     buyer_data = json.load(f)

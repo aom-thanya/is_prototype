@@ -1,13 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { SearchMd, Eye } from '@untitledui/icons';
 import { Button } from '../../components/base/buttons/button';
 import { Input } from '../../components/base/input/input';
 import { NativeSelect } from '../../components/base/select/select-native';
 
-export default function CampaignHistoryTab({ history }) {
+export default function CampaignHistoryTab() {
+  const { id } = useParams();
+  const [history, setHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState('');
-  
-  if (!history) return null;
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`/api/clients/${id}/campaign_history`);
+        if (!res.ok) throw new Error('Failed to fetch campaign history');
+        const data = await res.json();
+        setHistory(data);
+      } catch (err) {
+        console.error("Failed to fetch campaign history:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchHistory();
+  }, [id]);
 
   return (
     <div className="space-y-6">
@@ -49,7 +68,19 @@ export default function CampaignHistoryTab({ history }) {
               </tr>
             </thead>
             <tbody className="divide-y divide-border">
-              {history.length === 0 ? (
+              {isLoading ? (
+                Array.from({ length: 3 }).map((_, i) => (
+                  <tr key={i} className="animate-pulse">
+                    <td className="px-6 py-4"><div className="h-10 bg-gray-200 rounded w-full"></div></td>
+                    <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-24"></div></td>
+                    <td className="px-6 py-4"><div className="h-8 bg-gray-200 rounded w-full"></div></td>
+                    <td className="px-6 py-4"><div className="h-8 bg-gray-200 rounded w-full"></div></td>
+                    <td className="px-6 py-4"><div className="h-8 bg-gray-200 rounded w-full"></div></td>
+                    <td className="px-6 py-4"><div className="h-8 bg-gray-200 rounded w-full"></div></td>
+                    <td className="px-6 py-4"><div className="h-8 bg-gray-200 rounded w-10 ml-auto"></div></td>
+                  </tr>
+                ))
+              ) : history.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="px-6 py-12 text-center text-text-secondary">
                     No campaign history yet.

@@ -32,7 +32,6 @@ export default function BriefList() {
   // Filters state
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState('All');
-  const [typeFilter, setTypeFilter] = useState('All');
   const [saleFilter, setSaleFilter] = useState('All');
   const [dateFrom, setDateFrom] = useState('');
   const [dateTo, setDateTo] = useState('');
@@ -47,7 +46,7 @@ export default function BriefList() {
     setCurrentPage(1);
     const timer = setTimeout(() => setIsFiltering(false), 500);
     return () => clearTimeout(timer);
-  }, [search, statusFilter, typeFilter, saleFilter, dateFrom, dateTo]);
+  }, [search, statusFilter, saleFilter, dateFrom, dateTo]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -93,8 +92,7 @@ export default function BriefList() {
       // Status
       const statusMatch = statusFilter === 'All' || b.status === statusFilter;
       
-      // Type
-      const typeMatch = typeFilter === 'All' || b.briefType === typeFilter;
+
       
       // Sale
       const saleMatch = saleFilter === 'All' || b.salesOwner === saleFilter;
@@ -103,9 +101,9 @@ export default function BriefList() {
       const fromMatch = !dateFrom || new Date(b.createdDate) >= new Date(dateFrom);
       const toMatch = !dateTo || new Date(b.createdDate) <= new Date(dateTo);
 
-      return searchMatch && statusMatch && typeMatch && saleMatch && fromMatch && toMatch;
+      return searchMatch && statusMatch && saleMatch && fromMatch && toMatch;
     });
-  }, [briefs, search, statusFilter, typeFilter, saleFilter, dateFrom, dateTo]);
+  }, [briefs, search, statusFilter, saleFilter, dateFrom, dateTo]);
 
   // Summary counts are now fetched from API
 
@@ -126,7 +124,6 @@ export default function BriefList() {
         <div className="h-4 bg-gray-200 rounded w-24 mb-2"></div>
         <div className="h-3 bg-gray-200 rounded w-16"></div>
       </td>
-      <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-20"></div></td>
       <td className="px-6 py-4"><div className="h-6 bg-gray-200 rounded-full w-16"></div></td>
       <td className="px-6 py-4"><div className="h-4 bg-gray-200 rounded w-16"></div></td>
       <td className="px-6 py-4">
@@ -203,18 +200,7 @@ export default function BriefList() {
               ]}
             />
           </div>
-          <div className="w-full">
-            <NativeSelect 
-              value={typeFilter} 
-              onChange={(e) => setTypeFilter(e.target.value)}
-              options={[
-                { label: 'ประเภททั้งหมด', value: 'All' },
-                { label: 'มาตรฐาน', value: 'Standard' },
-                { label: 'เรทการ์ด', value: 'Ratecard' },
-                { label: 'แพ็กเกจรวม', value: 'Combined' },
-              ]}
-            />
-          </div>
+
           <div className="w-full">
             <Input 
               type="date" 
@@ -241,7 +227,7 @@ export default function BriefList() {
                 <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">หมายเลขบรีฟ</th>
                 <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">ชื่อโปรเจกต์</th>
                 <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">ลูกค้า / แบรนด์</th>
-                <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">ประเภท</th>
+
                 <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">สถานะ</th>
                 <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">ฝ่ายขาย</th>
                 <th className="px-6 py-3 text-xs font-medium text-text-secondary uppercase tracking-wider">วันที่</th>
@@ -253,7 +239,7 @@ export default function BriefList() {
                 Array.from({ length: Math.min(5, paginatedBriefs.length || 5) }).map((_, i) => <SkeletonRow key={i} />)
               ) : paginatedBriefs.length === 0 ? (
                 <tr>
-                  <td colSpan="8" className="px-6 py-12 text-center text-text-secondary">
+                  <td colSpan="7" className="px-6 py-12 text-center text-text-secondary">
                     <div className="flex flex-col items-center justify-center">
                       <SearchMd className="w-8 h-8 text-gray-300 mb-3" />
                       <p className="text-sm font-medium text-gray-900">ไม่พบบรีฟ</p>
@@ -278,9 +264,7 @@ export default function BriefList() {
                         <br />
                         <span className="text-xs">{brief.brand}</span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-text-secondary">
-                        {brief.briefType}
-                      </td>
+
                       <td className="px-6 py-4 whitespace-nowrap">
                         <StatusBadge status={brief.status} />
                       </td>

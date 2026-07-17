@@ -1,8 +1,49 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Badge } from '../../components/base/badges/badges';
 import { Zap, Check, X, File02 } from '@untitledui/icons';
 
-export default function ClientKnowledgeTab({ knowledge }) {
+export default function ClientKnowledgeTab() {
+  const { id } = useParams();
+  const [knowledge, setKnowledge] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchKnowledge = async () => {
+      setIsLoading(true);
+      try {
+        const res = await fetch(`/api/clients/${id}/knowledge`);
+        if (!res.ok) throw new Error('Failed to fetch knowledge');
+        const data = await res.json();
+        setKnowledge(data);
+      } catch (err) {
+        console.error("Failed to fetch client knowledge:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    fetchKnowledge();
+  }, [id]);
+
+  if (isLoading) {
+    return (
+      <div className="space-y-8">
+        <div>
+          <div className="h-6 w-48 bg-gray-200 rounded mb-4 animate-pulse" />
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="bg-surface rounded-xl border border-border p-5 h-32 animate-pulse" />
+            ))}
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-surface rounded-xl border border-border p-6 h-48 animate-pulse" />
+          <div className="bg-surface rounded-xl border border-border p-6 h-48 animate-pulse" />
+        </div>
+      </div>
+    );
+  }
+
   if (!knowledge) return null;
 
   return (
