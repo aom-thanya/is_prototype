@@ -3,8 +3,25 @@ import { createPortal } from 'react-dom';
 import { XClose } from '@untitledui/icons';
 import { Button } from '../base/buttons/button';
 
+import { useEffect, useState } from 'react';
+
 export function ProfileDrawer({ isOpen, onClose, creator, isSelected, onToggleSelect }) {
-  if (!isOpen || !creator) return null;
+  const [shouldRender, setShouldRender] = useState(isOpen);
+  const [isAnimating, setIsAnimating] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true);
+      const timer = setTimeout(() => setIsAnimating(true), 10);
+      return () => clearTimeout(timer);
+    } else {
+      setIsAnimating(false);
+      const timer = setTimeout(() => setShouldRender(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
+
+  if (!shouldRender || !creator) return null;
 
   const formatNumber = (num) => {
     if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
@@ -16,12 +33,12 @@ export function ProfileDrawer({ isOpen, onClose, creator, isSelected, onToggleSe
     <div className="fixed inset-0 z-[60] flex justify-end">
       {/* Backdrop */}
       <div 
-        className="absolute inset-0 bg-gray-900/20 backdrop-blur-sm animate-in fade-in" 
+        className={`absolute inset-0 bg-gray-900/20 backdrop-blur-sm transition-opacity duration-300 ${isAnimating ? 'opacity-100' : 'opacity-0'}`}
         onClick={onClose}
       />
       
       {/* Drawer */}
-      <div className="relative w-full max-w-md h-full bg-white shadow-2xl flex flex-col animate-in slide-in-from-right duration-300">
+      <div className={`relative w-full max-w-md h-full bg-white shadow-2xl flex flex-col transition-transform duration-300 ${isAnimating ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex items-center justify-between p-6 border-b border-border">
           <h2 className="text-lg font-semibold text-text-primary">Creator Profile</h2>
           <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 rounded-lg hover:bg-gray-100 transition-colors">

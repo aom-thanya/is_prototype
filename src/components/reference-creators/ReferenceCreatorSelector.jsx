@@ -9,7 +9,7 @@ import { ProfileDrawer } from './ProfileDrawer';
 import { ConfirmModal } from '../base/modal/ConfirmModal';
 
 export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSelected = [] }) {
-  const [activeTab, setActiveTab] = useState('username');
+  const [activeTab, setActiveTab] = useState('photo');
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearching, setIsSearching] = useState(false);
   const [results, setResults] = useState([]);
@@ -30,19 +30,32 @@ export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSe
   const [photoPreview, setPhotoPreview] = useState(null);
   const [isPhotoSearching, setIsPhotoSearching] = useState(false);
 
+  // Animation State
+  const [shouldRender, setShouldRender] = useState(isOpen);
+  const [isAnimating, setIsAnimating] = useState(false);
+
   // Sync initial selection when opened
   useEffect(() => {
     if (isOpen) {
+      setShouldRender(true);
+      // Small delay to ensure DOM is ready for transition
+      const timer = setTimeout(() => setIsAnimating(true), 10);
+      
       setSelectedCreators([...initialSelected]);
       setResults([]);
       setSearchQuery('');
       setPhotoFile(null);
       setPhotoPreview(null);
-      setActiveTab('username');
+      setActiveTab('photo');
+      return () => clearTimeout(timer);
+    } else {
+      setIsAnimating(false);
+      const timer = setTimeout(() => setShouldRender(false), 300); // Wait for transition
+      return () => clearTimeout(timer);
     }
   }, [isOpen, initialSelected]);
 
-  if (!isOpen) return null;
+  if (!shouldRender) return null;
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
@@ -117,7 +130,7 @@ export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSe
   };
 
   return createPortal(
-    <div className="fixed inset-0 z-50 flex flex-col bg-gray-50 animate-in fade-in slide-in-from-bottom-8 duration-300 ease-out">
+    <div className={`fixed inset-0 z-50 flex flex-col bg-gray-50 transition-all duration-300 ease-out ${isAnimating ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
       
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 bg-white border-b border-border shadow-sm">
@@ -141,16 +154,16 @@ export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSe
             {/* Tabs */}
             <div className="flex gap-4 border-b border-gray-200 mb-6">
               <button 
-                className={`pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'username' ? 'border-brand-solid text-brand-solid' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
-                onClick={() => setActiveTab('username')}
-              >
-                Search by Username
-              </button>
-              <button 
                 className={`pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'photo' ? 'border-brand-solid text-brand-solid' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
                 onClick={() => setActiveTab('photo')}
               >
                 Search by Photo
+              </button>
+              <button 
+                className={`pb-3 px-2 text-sm font-medium border-b-2 transition-colors ${activeTab === 'username' ? 'border-brand-solid text-brand-solid' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                onClick={() => setActiveTab('username')}
+              >
+                Search by Username
               </button>
             </div>
 
