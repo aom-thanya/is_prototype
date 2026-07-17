@@ -244,8 +244,8 @@ export default function CreateBrief() {
         </SectionCard>
 
 
-        {/* Section 3: Timeline */}
-        <SectionCard title="3. Timeline">
+        {/* Section 2: Timeline */}
+        <SectionCard title="2. Timeline">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <Input label="Campaign Start Date" type="date" value={formData.startDate} onChange={(val) => handleChange('startDate', val)} />
@@ -256,8 +256,8 @@ export default function CreateBrief() {
           </div>
         </SectionCard>
 
-        {/* Section 4: Budget */}
-        <SectionCard title="4. Budget">
+        {/* Section 3: Budget */}
+        <SectionCard title="3. Budget">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <Input label="Budget" isRequired type="number" value={formData.budget} onChange={(val) => handleChange('budget', val)} isInvalid={!!errors.budget} hint={errors.budget} placeholder="0.00" />
@@ -279,8 +279,8 @@ export default function CreateBrief() {
           </div>
         </SectionCard>
 
-        {/* Section 5: KPI */}
-        <SectionCard title="5. KPI">
+        {/* Section 4: KPI */}
+        <SectionCard title="4. KPI">
           <div className="space-y-4">
             {kpis.map((kpi, idx) => (
               <div key={kpi.id} className="flex flex-col md:flex-row gap-4 p-4 border border-border rounded-lg bg-gray-50/50">
@@ -317,8 +317,8 @@ export default function CreateBrief() {
           </div>
         </SectionCard>
 
-        {/* Section 6: Target Audience */}
-        <SectionCard title="6. Target Audience">
+        {/* Section 5: Target Audience */}
+        <SectionCard title="5. Target Audience">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <Input label="Gender" value={formData.gender} onChange={(val) => handleChange('gender', val)} placeholder="e.g. Female, Male, All" />
@@ -341,8 +341,8 @@ export default function CreateBrief() {
           </div>
         </SectionCard>
 
-        {/* Section 7: Scope of Work */}
-        <SectionCard title="7. Scope of Work">
+        {/* Section 6: Scope of Work */}
+        <SectionCard title="6. Scope of Work">
           <div className="space-y-4">
             {scopes.map((scope) => (
               <div key={scope.id} className="grid grid-cols-1 md:grid-cols-12 gap-4 p-4 border border-border rounded-lg bg-gray-50/50">
@@ -401,8 +401,8 @@ export default function CreateBrief() {
           </div>
         </SectionCard>
 
-        {/* Section 8: References */}
-        <SectionCard title="8. References">
+        {/* Section 7: References */}
+        <SectionCard title="7. References">
           <div className="space-y-4">
             {references.map((ref) => (
               <div key={ref.id} className="flex flex-col md:flex-row gap-4 p-4 border border-border rounded-lg bg-gray-50/50">
@@ -423,8 +423,8 @@ export default function CreateBrief() {
           </div>
         </SectionCard>
 
-        {/* Section 9: Attachments */}
-        <SectionCard title="9. Attachments">
+        {/* Section 8: Attachments */}
+        <SectionCard title="8. Attachments">
           <div className="space-y-4">
             <div className="border-2 border-dashed border-border rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors">
               <UploadCloud02 className="w-10 h-10 text-gray-400 mb-3" />
@@ -451,8 +451,8 @@ export default function CreateBrief() {
           </div>
         </SectionCard>
 
-        {/* Section 10: Additional Remark */}
-        <SectionCard title="10. Additional Remark">
+        {/* Section 9: Additional Remark */}
+        <SectionCard title="9. Additional Remark">
           <TextArea label="Remark" value={formData.remark} onChange={(val) => handleChange('remark', val)} placeholder="Any final notes or instructions..." />
         </SectionCard>
       </div>
