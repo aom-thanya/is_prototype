@@ -37,23 +37,21 @@ export default function CreateBrief() {
 
   const [formData, setFormData] = useState({
     projectName: '', client: '', brand: '', campaignName: '', product: '', industry: '', objectives: [], description: '', platforms: [],
-    startDate: '', endDate: '', proposalDate: '', contentDate: '', publishDate: '',
+    startDate: '', endDate: '',
     budget: '', currency: 'THB', budgetRemark: '',
-    gender: '', ageRange: '', region: '', interest: '', incomeLevel: '', audienceDesc: '',
-    remark: ''
   });
   
   const [kpis, setKpis] = useState([]);
-  const [scopes, setScopes] = useState([{ id: 'init-1', platform: '', type: '', tier: '', qty: '', priceCap: '', remark: '' }]);
+  const [scopes, setScopes] = useState([]);
   const [references, setReferences] = useState([]);
-  const [files, setFiles] = useState([]);
   const [errors, setErrors] = useState({});
   const [toast, setToast] = useState(null);
 
   const steps = [
     { id: 1, name: 'Campaign Setup' },
     { id: 2, name: 'Campaign Requirements' },
-    { id: 3, name: 'Review & Submit' }
+    { id: 3, name: 'References' },
+    { id: 4, name: 'Review & Submit' }
   ];
 
   // Handlers
@@ -95,15 +93,6 @@ export default function CreateBrief() {
     setReferences(references.map(r => r.id === id ? { ...r, [field]: value } : r));
     if (errors[`ref_${id}`]) setErrors(errs => ({ ...errs, [`ref_${id}`]: null }));
   };
-
-  // File Handlers
-  const handleFileUpload = (e) => {
-    const uploadedFiles = Array.from(e.target.files).map(file => ({
-      id: generateId(), name: file.name, size: (file.size / 1024 / 1024).toFixed(2) + ' MB'
-    }));
-    setFiles([...files, ...uploadedFiles]);
-  };
-  const removeFile = (id) => setFiles(files.filter(f => f.id !== id));
 
 
   // Actions
@@ -597,66 +586,36 @@ export default function CreateBrief() {
             </>
           )}
 
-          {/* --- STEP 3: Review & Submit --- */}
+          {/* --- STEP 3: References --- */}
           {currentStep === 3 && (
             <>
-              
-              {renderSummary()}
-
-              {/* Section 7: References */}
               <SectionCard title="7. References">
-            <div className="space-y-4">
-              {references.map((ref) => (
-                <div key={ref.id} className="flex flex-col md:flex-row gap-4 p-4 border border-border rounded-lg bg-gray-50/50">
-                  <div className="w-full md:w-1/3">
-                    <Input label="Reference Name" value={ref.name} onChange={val => updateReference(ref.id, 'name', val)} placeholder="e.g. Moodboard" />
-                  </div>
-                  <div className="w-full md:w-2/3 flex gap-2 items-end">
-                    <div className="flex-1">
-                      <Input label="URL" value={ref.url} onChange={val => updateReference(ref.id, 'url', val)} isInvalid={!!errors[`ref_${ref.id}`]} hint={errors[`ref_${ref.id}`]} placeholder="https://..." />
-                    </div>
-                    <Button color="tertiary" onClick={() => removeReference(ref.id)} className="text-gray-400 hover:text-error" iconLeading={Trash01} />
-                  </div>
-                </div>
-              ))}
-              <Button color="link-color" size="sm" onClick={addReference} iconLeading={Plus}>
-                Add Reference
-              </Button>
-            </div>
-          </SectionCard>
-
-          {/* Section 8: Attachments */}
-          <SectionCard title="8. Attachments">
-            <div className="space-y-4">
-              <div className="border-2 border-dashed border-border rounded-xl p-8 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition-colors">
-                <UploadCloud02 className="w-10 h-10 text-gray-400 mb-3" />
-                <p className="text-sm text-text-primary font-medium">Click or drag files to upload</p>
-                <p className="text-xs text-text-secondary mt-1">PDF, DOCX, PPTX, XLSX, Images (Max 10MB)</p>
-                <input type="file" multiple className="hidden" id="file-upload" onChange={handleFileUpload} />
-                <label htmlFor="file-upload" className="mt-4 px-4 py-2 bg-white border border-border rounded-lg text-sm font-medium text-text-primary hover:bg-gray-50 cursor-pointer shadow-sm">
-                  Select Files
-                </label>
-              </div>
-              {files.length > 0 && (
-                <ul className="space-y-2 mt-4">
-                  {files.map(file => (
-                    <li key={file.id} className="flex items-center justify-between p-3 border border-border rounded-lg bg-surface">
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm font-medium text-text-primary">{file.name}</span>
-                        <span className="text-xs text-text-secondary">{file.size}</span>
+                <div className="space-y-4">
+                  {references.map((ref) => (
+                    <div key={ref.id} className="flex flex-col md:flex-row gap-4 p-4 border border-border rounded-lg bg-gray-50/50">
+                      <div className="w-full md:w-1/3">
+                        <Input label="Reference Name" value={ref.name} onChange={val => updateReference(ref.id, 'name', val)} placeholder="e.g. Moodboard" />
                       </div>
-                      <Button color="tertiary" size="sm" onClick={() => removeFile(file.id)} className="text-gray-400 hover:text-error" iconLeading={Trash01} />
-                    </li>
+                      <div className="w-full md:w-2/3 flex gap-2 items-end">
+                        <div className="flex-1">
+                          <Input label="URL" value={ref.url} onChange={val => updateReference(ref.id, 'url', val)} isInvalid={!!errors[`ref_${ref.id}`]} hint={errors[`ref_${ref.id}`]} placeholder="https://..." />
+                        </div>
+                        <Button color="tertiary" onClick={() => removeReference(ref.id)} className="text-gray-400 hover:text-error" iconLeading={Trash01} />
+                      </div>
+                    </div>
                   ))}
-                </ul>
-              )}
-            </div>
-          </SectionCard>
-
-              {/* Section 9: Additional Remark */}
-              <SectionCard title="9. Additional Remark">
-                <TextArea label="Remark" value={formData.remark} onChange={(val) => handleChange('remark', val)} placeholder="Any final notes or instructions..." />
+                  <Button color="link-color" size="sm" onClick={addReference} iconLeading={Plus}>
+                    Add Reference
+                  </Button>
+                </div>
               </SectionCard>
+            </>
+          )}
+
+          {/* --- STEP 4: Review & Submit --- */}
+          {currentStep === 4 && (
+            <>
+              {renderSummary()}
             </>
           )}
             </div>
@@ -682,7 +641,7 @@ export default function CreateBrief() {
             <Button color="secondary" onClick={handleSaveDraft}>
               Save Draft
             </Button>
-            {currentStep < 3 ? (
+            {currentStep < 4 ? (
               <Button color="primary" onClick={handleNext}>
                 Continue
               </Button>
