@@ -1,9 +1,10 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 import time
 import json
+from creators_mock import MOCK_CREATORS
 
 app = FastAPI()
 
@@ -44,6 +45,20 @@ async def get_briefs():
 async def create_brief(req: dict):
     time.sleep(1) # simulate processing
     return {"status": "success", "message": "Brief created successfully", "data": req}
+
+@app.get("/api/creators/search")
+async def search_creators(q: Optional[str] = None):
+    time.sleep(0.8) # simulate network delay
+    if not q:
+        return MOCK_CREATORS
+    q = q.lower()
+    return [c for c in MOCK_CREATORS if q in c["username"].lower() or q in c["displayName"].lower()]
+
+@app.post("/api/creators/search_by_photo")
+async def search_creators_by_photo():
+    time.sleep(1.5) # simulate AI processing delay
+    # Just return a subset of mocked creators for demonstration
+    return sorted(MOCK_CREATORS, key=lambda x: x.get("similarityScore", 0), reverse=True)[:3]
 
 @app.get("/api/briefs/summary")
 async def get_briefs_summary():

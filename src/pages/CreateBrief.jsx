@@ -11,7 +11,9 @@ import { Checkbox } from '../components/base/checkbox/checkbox';
 import { MOCK_CLIENTS } from '../mockData/clients';
 import { CampaignSummaryPanel } from '../components/CampaignSummaryPanel';
 import { ConfirmModal } from '../components/base/modal/ConfirmModal';
-import { File06 } from '@untitledui/icons';
+import { File06, Users01 } from '@untitledui/icons';
+import { ReferenceCreatorSelector } from '../components/reference-creators/ReferenceCreatorSelector';
+import { CompactCreatorCard } from '../components/reference-creators/CompactCreatorCard';
 
 const SectionCard = ({ id, title, children, error }) => (
   <div id={id} className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden mb-6 scroll-mt-24">
@@ -43,7 +45,9 @@ export default function CreateBrief() {
   
   const [kpis, setKpis] = useState([]);
   const [scopes, setScopes] = useState([]);
-  const [references, setReferences] = useState([]);
+  const [referenceCreators, setReferenceCreators] = useState([]);
+  const [isSelectorOpen, setIsSelectorOpen] = useState(false);
+  const [creatorToRemove, setCreatorToRemove] = useState(null);
   const [errors, setErrors] = useState({});
   const [toast, setToast] = useState(null);
 
@@ -86,13 +90,7 @@ export default function CreateBrief() {
     setScopes(scopes.map(s => s.id === id ? { ...s, [field]: value } : s));
   };
 
-  // Reference Handlers
-  const addReference = () => setReferences([...references, { id: generateId(), name: '', url: '' }]);
-  const removeReference = (id) => setReferences(references.filter(r => r.id !== id));
-  const updateReference = (id, field, value) => {
-    setReferences(references.map(r => r.id === id ? { ...r, [field]: value } : r));
-    if (errors[`ref_${id}`]) setErrors(errs => ({ ...errs, [`ref_${id}`]: null }));
-  };
+
 
 
   // Actions
@@ -127,11 +125,7 @@ export default function CreateBrief() {
         }
       }
     } else if (step === 3) {
-      references.forEach(ref => {
-        if (ref.url && !/^https?:\/\/.+/.test(ref.url)) {
-          newErrors[`ref_${ref.id}`] = 'Invalid URL format (must start with http:// or https://)';
-        }
-      });
+      // Optional, no validation
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -189,7 +183,7 @@ export default function CreateBrief() {
           ...formData,
           kpis,
           scopes,
-          references
+          referenceCreators
         })
       });
 
@@ -586,27 +580,45 @@ export default function CreateBrief() {
             </>
           )}
 
-          {/* --- STEP 3: References --- */}
+          {/* --- STEP 3: Reference Creators --- */}
           {currentStep === 3 && (
             <>
-              <SectionCard title="7. References">
+              <SectionCard title="7. Reference Creators">
                 <div className="space-y-4">
-                  {references.map((ref) => (
-                    <div key={ref.id} className="flex flex-col md:flex-row gap-4 p-4 border border-border rounded-lg bg-gray-50/50">
-                      <div className="w-full md:w-1/3">
-                        <Input label="Reference Name" value={ref.name} onChange={val => updateReference(ref.id, 'name', val)} placeholder="e.g. Moodboard" />
-                      </div>
-                      <div className="w-full md:w-2/3 flex gap-2 items-end">
-                        <div className="flex-1">
-                          <Input label="URL" value={ref.url} onChange={val => updateReference(ref.id, 'url', val)} isInvalid={!!errors[`ref_${ref.id}`]} hint={errors[`ref_${ref.id}`]} placeholder="https://..." />
-                        </div>
-                        <Button color="tertiary" onClick={() => removeReference(ref.id)} className="text-gray-400 hover:text-error" iconLeading={Trash01} />
-                      </div>
+                  <p className="text-sm text-text-secondary">
+                    Select creators whose appearance, content style, persona, or audience direction can be used as references for this campaign.
+                  </p>
+
+                  {referenceCreators.length === 0 ? (
+                    <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 flex flex-col items-center justify-center text-center bg-gray-50">
+                      <Users01 className="w-10 h-10 text-gray-400 mb-3" />
+                      <p className="text-sm font-medium text-gray-700">No reference creators selected yet.</p>
+                      <Button className="mt-4" color="primary" size="sm" onClick={() => setIsSelectorOpen(true)}>
+                        + Add Reference Creator
+                      </Button>
                     </div>
-                  ))}
-                  <Button color="link-color" size="sm" onClick={addReference} iconLeading={Plus}>
-                    Add Reference
-                  </Button>
+                  ) : (
+                    <>
+                      <div className="flex items-center justify-between mb-4 mt-6">
+                        <span className="text-sm font-medium text-gray-700">{referenceCreators.length} selected</span>
+                      </div>
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {referenceCreators.map(creator => (
+                          <CompactCreatorCard 
+                            key={creator.creatorId} 
+                            creator={creator} 
+                            onRemove={setCreatorToRemove}
+                            onViewProfile={() => {}}
+                          />
+                        ))}
+                      </div>
+                      <div className="mt-4 pt-4 border-t border-gray-100 flex justify-center">
+                        <Button color="secondary" onClick={() => setIsSelectorOpen(true)}>
+                          + Add More Creators
+                        </Button>
+                      </div>
+                    </>
+                  )}
                 </div>
               </SectionCard>
             </>
@@ -653,6 +665,30 @@ export default function CreateBrief() {
           </div>
         </div>
       </div>
+
+      {/* Modals & Overlays */}
+      <ReferenceCreatorSelector 
+        isOpen={isSelectorOpen} 
+        onClose={() => setIsSelectorOpen(false)} 
+        onConfirm={(creators) => {
+          setReferenceCreators(creators);
+          setIsSelectorOpen(false);
+        }}
+        initialSelected={referenceCreators}
+      />
+
+      <ConfirmModal
+        isOpen={!!creatorToRemove}
+        onClose={() => setCreatorToRemove(null)}
+        onConfirm={() => {
+          setReferenceCreators(prev => prev.filter(c => c.creatorId !== creatorToRemove.creatorId));
+          setCreatorToRemove(null);
+        }}
+        title="Remove this reference creator?"
+        description={`@${creatorToRemove?.username} will be removed from this brief.`}
+        confirmText="Remove"
+        cancelText="Cancel"
+      />
 
       {/* Confirm Submit Modal */}
       <ConfirmModal
