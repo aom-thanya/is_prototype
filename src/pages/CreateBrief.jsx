@@ -223,20 +223,6 @@ export default function CreateBrief() {
       
       <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-border bg-gray-50 flex justify-between items-center">
-          <h3 className="font-semibold text-text-primary">Campaign Setup</h3>
-          <Button color="tertiary" size="sm" onClick={() => changeStep(1)}>Edit</Button>
-        </div>
-        <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-sm">
-          <div><span className="text-text-secondary block mb-1">Project Name</span> <span className="font-medium text-text-primary">{formData.projectName || '-'}</span></div>
-          <div><span className="text-text-secondary block mb-1">Client / Brand</span> <span className="font-medium text-text-primary">{formData.client || '-'} / {formData.brand || '-'}</span></div>
-          <div className="md:col-span-2"><span className="text-text-secondary block mb-1">Objectives</span> <span className="font-medium text-text-primary">{formData.objectives.join(', ') || '-'}</span></div>
-          <div><span className="text-text-secondary block mb-1">Timeline</span> <span className="font-medium text-text-primary">{formData.startDate || '-'} to {formData.endDate || '-'}</span></div>
-          <div><span className="text-text-secondary block mb-1">Budget</span> <span className="font-medium text-text-primary">{formData.budget ? `${Number(formData.budget).toLocaleString()} ${formData.currency}` : '-'}</span></div>
-        </div>
-      </div>
-
-      <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-border bg-gray-50 flex justify-between items-center">
           <h3 className="font-semibold text-text-primary">Campaign Requirements</h3>
           <Button color="tertiary" size="sm" onClick={() => changeStep(2)}>Edit</Button>
         </div>
@@ -261,6 +247,27 @@ export default function CreateBrief() {
               </ul>
             ) : <span className="text-gray-400">No Scope added</span>}
           </div>
+        </div>
+      </div>
+
+      <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden mt-6">
+        <div className="px-6 py-4 border-b border-border bg-gray-50 flex justify-between items-center">
+          <h3 className="font-semibold text-text-primary">Reference Creators</h3>
+          <Button color="tertiary" size="sm" onClick={() => changeStep(3)}>Edit</Button>
+        </div>
+        <div className="p-6 space-y-4 text-sm">
+          {referenceCreators.length > 0 ? (
+            <div className="flex flex-wrap gap-3">
+              {referenceCreators.map(c => (
+                <div key={c.creatorId} className="flex items-center gap-2 bg-gray-50 border border-gray-200 p-2 pr-4 rounded-full">
+                  <img src={c.profileImageUrl || `https://ui-avatars.com/api/?name=${c.username}`} className="w-6 h-6 rounded-full" />
+                  <span className="font-medium text-text-primary">@{c.username}</span>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <span className="text-gray-400">No reference creators selected</span>
+          )}
         </div>
       </div>
     </div>
