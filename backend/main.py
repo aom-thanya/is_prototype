@@ -40,6 +40,11 @@ async def get_briefs():
     time.sleep(0.5)
     return MOCK_BRIEFS
 
+@app.post("/api/briefs")
+async def create_brief(req: dict):
+    time.sleep(1) # simulate processing
+    return {"status": "success", "message": "Brief created successfully", "data": req}
+
 @app.get("/api/briefs/summary")
 async def get_briefs_summary():
     time.sleep(0.5)

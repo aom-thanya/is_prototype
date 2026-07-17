@@ -10,6 +10,8 @@ import { RadioButton, RadioGroup } from '../components/base/radio-buttons/radio-
 import { Checkbox } from '../components/base/checkbox/checkbox';
 import { MOCK_CLIENTS } from '../mockData/clients';
 import { CampaignSummaryPanel } from '../components/CampaignSummaryPanel';
+import { ConfirmModal } from '../components/base/modal/ConfirmModal';
+import { File06 } from '@untitledui/icons';
 
 const SectionCard = ({ id, title, children, error }) => (
   <div id={id} className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden mb-6 scroll-mt-24">
@@ -30,6 +32,8 @@ export default function CreateBrief() {
   const [currentStep, setCurrentStep] = useState(1);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [visitedSteps, setVisitedSteps] = useState([1]);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [formData, setFormData] = useState({
     projectName: '', client: '', brand: '', campaignName: '', product: '', industry: '', objectives: [], description: '', platforms: [],
@@ -179,9 +183,38 @@ export default function CreateBrief() {
   };
 
   const handleSubmit = () => {
-    if (validateStep(3)) {
-      showToast('Brief submitted successfully!');
+    if (validateStep(currentStep)) {
+      setIsConfirmModalOpen(true);
+    }
+  };
+
+  const submitToApi = async () => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch('http://localhost:8000/api/briefs', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          ...formData,
+          kpis,
+          scopes,
+          references
+        })
+      });
+
+      if (!response.ok) throw new Error('Failed to create brief');
+
+      setToast({ message: 'Brief created successfully!', type: 'success' });
+      setIsConfirmModalOpen(false);
       setTimeout(() => navigate('/brief'), 1500);
+    } catch (error) {
+      console.error(error);
+      setToast({ message: 'Failed to create brief. Please try again.', type: 'error' });
+      setIsConfirmModalOpen(false);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -661,6 +694,18 @@ export default function CreateBrief() {
           </div>
         </div>
       </div>
+
+      {/* Confirm Submit Modal */}
+      <ConfirmModal
+        isOpen={isConfirmModalOpen}
+        onClose={() => !isSubmitting && setIsConfirmModalOpen(false)}
+        onConfirm={submitToApi}
+        title="Create New Brief"
+        description="Are you sure you want to submit this brief? You can still edit it later as a draft."
+        confirmText={isSubmitting ? "Creating..." : "Create Brief"}
+        cancelText="Cancel"
+        icon={File06}
+      />
     </div>
   );
 }
