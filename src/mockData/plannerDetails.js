@@ -22,6 +22,21 @@ export const MOCK_PLANNER_DETAILS = {
     remark: "ลูกค้าต้องการ Mood premium และหลีกเลี่ยง content ขายตรง"
   },
 
+  referenceCreators: [
+    {
+      creatorId: "c1",
+      username: "peemwasu",
+      platform: "TikTok",
+      profileImageUrl: "https://i.pravatar.cc/150?u=peemwasu"
+    },
+    {
+      creatorId: "c2",
+      username: "goyyog",
+      platform: "Instagram",
+      profileImageUrl: "https://i.pravatar.cc/150?u=goyyog"
+    }
+  ],
+
   similarCampaigns: [
     {
       id: "sc-1",
