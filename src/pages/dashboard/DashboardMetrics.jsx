@@ -9,7 +9,7 @@ export default function DashboardMetrics({ briefs, slaStats, currentRole, isLoad
   const waitingCount = briefs.filter(b => b.myRole === currentRole && !b.isCompleted).length;
   const completedCount = briefs.filter(b => b.isCompleted).length;
 
-  const currentSLA = slaStats[currentRole] || slaStats['Planner']; // fallback
+  const currentSLA = slaStats[currentRole] || slaStats['Planner'] || { achievement: 0, onTime: 0, late: 0, total: 0, avgTime: '0 days' }; // fallback
 
   return (
     <div className="space-y-6">
