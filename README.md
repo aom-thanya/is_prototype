@@ -20,7 +20,9 @@ This is a prototype web application designed for an Influencer (KOL) Management 
 
 ## 📦 Getting Started
 
-To run this project locally, follow these steps:
+To run this project locally, you will need to start both the frontend and backend servers.
+
+### Frontend Setup
 
 1.  **Install dependencies**:
     ```bash
@@ -32,8 +34,30 @@ To run this project locally, follow these steps:
     npm run dev
     ```
 
-3.  **Open in browser**:
-    Navigate to `http://localhost:5173` (or the port specified in your terminal) to view the application.
+### Backend Setup
+
+1.  **Navigate to the backend directory**:
+    ```bash
+    cd backend
+    ```
+
+2.  **Set up a virtual environment**:
+    ```bash
+    python -m venv .venv
+    source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
+    ```
+
+3.  **Install dependencies**:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  **Start the backend server**:
+    ```bash
+    uvicorn main:app --reload
+    ```
+
+Once both servers are running, navigate to `http://localhost:5173` in your browser to view the application.
 
 ## 🧩 Project Structure
 
@@ -41,6 +65,7 @@ To run this project locally, follow these steps:
 *   `src/components/base/` - Reusable UI components (Buttons, Inputs, Modals, Badges).
 *   `src/mockData/` - Local JSON data simulating backend APIs for briefs, clients, and influencers.
 *   `src/App.jsx` - Main application routing and layout wrapper (Sidebar + Content area).
+*   `backend/` - FastAPI backend to serve data to the frontend.
 
 ## 🌐 Deployment
 
@@ -56,4 +81,4 @@ If you are deploying to Vercel, the build settings should be automatically detec
 *(Note: We have strictly pinned some UI dependencies to ensure compatibility with Tailwind CSS v3 during the Vercel build process).*
 
 ---
-*Note: This is a frontend prototype relying on mock data. There is no active backend database connection.*
+*Note: This prototype uses a FastAPI backend with local JSON files as a mock database.*

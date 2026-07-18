@@ -37,5 +37,10 @@ coverage/
 # Python Backend
 backend/.venv/
 backend/__pycache__/
+.venv/
+__pycache__/
 *.py[cod]
 *$py.class
+.pytest_cache/
+.coverage
+*.sqlite3
