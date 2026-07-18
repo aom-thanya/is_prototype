@@ -5,12 +5,9 @@ import { Button } from '../components/base/buttons/button';
 import { Badge } from '../components/base/badges/badges';
 import { BriefStepper } from '../components/brief/BriefStepper';
 
-import BriefInfoSection from './planner-workspace/BriefInfoSection';
 import ExampleListSection from './planner-workspace/ExampleListSection';
 import SimilarCampaignSection from './planner-workspace/SimilarCampaignSection';
 import PlannerWorkspaceSection from './planner-workspace/PlannerWorkspaceSection';
-
-import ClientIntelligencePanel from './planner-workspace/ClientIntelligencePanel';
 
 import { MOCK_PLANNER_DETAILS } from '../mockData/plannerDetails';
 import { MOCK_BUYER_RECOMMENDATIONS } from '../mockData/buyerRecommendations';
@@ -64,23 +61,10 @@ export default function PlannerWorkspace() {
       </div>
 
       {/* Main Grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        
-        {/* Left Column - Workspace */}
-        <div className="xl:col-span-2 space-y-8 pb-20">
-          <BriefInfoSection brief={data} />
-          <ExampleListSection />
-          <SimilarCampaignSection campaigns={data.similarCampaigns} />
-          <PlannerWorkspaceSection />
-        </div>
-        
-        {/* Right Column - Client Intelligence */}
-        <div className="xl:col-span-1">
-          <div className="sticky top-6">
-            <ClientIntelligencePanel intelligence={data.clientIntelligence} />
-          </div>
-        </div>
-
+      <div className="grid grid-cols-1 gap-8 pb-20">
+        <ExampleListSection />
+        <SimilarCampaignSection campaigns={data.similarCampaigns} />
+        <PlannerWorkspaceSection />
       </div>
     </div>
   );

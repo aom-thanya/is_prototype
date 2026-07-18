@@ -187,23 +187,25 @@ const RecommendationList = forwardRef(({ recommendations = [], onCreatorsChange 
   };
 
   return (
-    <div className="space-y-6 pb-24 relative">
-      <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-text-primary flex items-center gap-2">
-          <Users01 className="w-5 h-5 text-brand-500" />
-          Select Creators
-        </h3>
-        <Button color="primary" onClick={() => setIsSelectorOpen(true)}>+ Add Creators</Button>
-      </div>
-
-      {creatorsList.length === 0 ? (
-        <div className="p-12 text-center bg-surface border border-border rounded-xl">
-          <Users01 className="w-8 h-8 text-gray-300 mx-auto mb-3" />
-          <p className="text-text-secondary mb-4">No creators found for this brief.</p>
+    <div className="pb-24 relative">
+      <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden flex flex-col">
+        {/* Header */}
+        <div className="px-6 py-4 border-b border-gray-200 bg-slate-50 flex justify-between items-center">
+          <h3 className="font-semibold text-[17px] text-text-primary flex items-center gap-2">
+            <Users01 className="w-5 h-5 text-gray-500" />
+            Select Creators
+          </h3>
           <Button color="primary" onClick={() => setIsSelectorOpen(true)}>+ Add Creators</Button>
         </div>
-      ) : (
-        <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden flex flex-col">
+
+        {creatorsList.length === 0 ? (
+          <div className="p-12 text-center">
+            <Users01 className="w-8 h-8 text-gray-300 mx-auto mb-3" />
+            <p className="text-text-secondary mb-4">No creators found for this brief.</p>
+            <Button color="primary" onClick={() => setIsSelectorOpen(true)}>+ Add Creators</Button>
+          </div>
+        ) : (
+          <div className="flex flex-col">
           {/* Table Toolbar */}
           <div className="p-4 border-b border-border flex flex-col sm:flex-row items-center justify-between gap-4 bg-gray-50">
             <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -374,6 +376,7 @@ const RecommendationList = forwardRef(({ recommendations = [], onCreatorsChange 
           )}
         </div>
       )}
+    </div>
 
       {/* Sticky Bottom Bar removed as per request to move button to header */}
 

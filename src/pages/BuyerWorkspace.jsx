@@ -6,6 +6,7 @@ import { Button } from '../components/base/buttons/button';
 import { Badge } from '../components/base/badges/badges';
 import RecommendationList from './buyer-workspace/RecommendationList';
 import { BriefStepper } from '../components/brief/BriefStepper';
+import ClientIntelligencePanel from './planner-workspace/ClientIntelligencePanel';
 import { MOCK_PLANNER_DETAILS } from '../mockData/plannerDetails';
 import { MOCK_BUYER_RECOMMENDATIONS } from '../mockData/buyerRecommendations';
 
@@ -75,10 +76,11 @@ export default function BuyerWorkspace() {
         <PageLoader message="AI กำลังค้นหาครีเอเตอร์ที่เหมาะสม..." />
       ) : (
         <div className="pt-4 grid grid-cols-1 xl:grid-cols-4 gap-6">
-          {/* Left Column: Reference Creators */}
+          {/* Left Column: Reference Creators & Client Intelligence */}
           <div className="xl:col-span-1">
-            <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden sticky top-6">
-              <div className="px-6 py-4 border-b border-gray-200 bg-slate-50 flex justify-between items-center">
+            <div className="sticky top-6 space-y-6">
+              <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200 bg-slate-50 flex justify-between items-center">
                 <h3 className="font-semibold text-[17px] text-text-primary flex items-center gap-2">
                   <span>👥</span> Reference Creators
                 </h3>
@@ -97,6 +99,9 @@ export default function BuyerWorkspace() {
                   <span className="text-gray-400">No reference creators selected</span>
                 )}
               </div>
+            </div>
+            
+            <ClientIntelligencePanel intelligence={brief.clientIntelligence} />
             </div>
           </div>
           
