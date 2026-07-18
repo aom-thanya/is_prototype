@@ -23,29 +23,9 @@ const LOADING_MESSAGES = [
 ];
 
 function App() {
-  const [isAppLoading, setIsAppLoading] = useState(true);
-  const [loadingMessage, setLoadingMessage] = useState("");
-
   useEffect(() => {
-    // Select random message
-    const randomMsg = LOADING_MESSAGES[Math.floor(Math.random() * LOADING_MESSAGES.length)];
-    setLoadingMessage(randomMsg);
-
-    // Simulate initial loading for 3 seconds
-    const timer = setTimeout(() => {
-      setIsAppLoading(false);
-    }, 3000);
-
-    return () => clearTimeout(timer);
+    // No global delay
   }, []);
-
-  if (isAppLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-page-background">
-        <PageLoader message={loadingMessage} />
-      </div>
-    );
-  }
 
   return (
     <div className="flex h-screen overflow-hidden bg-page-background">

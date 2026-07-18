@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import PageLoader from '../components/PageLoader';
 import { ArrowLeft, Send01 } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
 import { Badge } from '../components/base/badges/badges';
 import RecommendationList from './buyer-workspace/RecommendationList';
 import { BriefStepper } from '../components/brief/BriefStepper';
 import ClientIntelligencePanel from './planner-workspace/ClientIntelligencePanel';
+import BuyerWorkspaceSkeleton from './buyer-workspace/BuyerWorkspaceSkeleton';
 import { MOCK_PLANNER_DETAILS } from '../mockData/plannerDetails';
 import { MOCK_BUYER_RECOMMENDATIONS } from '../mockData/buyerRecommendations';
 
@@ -27,7 +27,7 @@ export default function BuyerWorkspace() {
       setBrief(MOCK_PLANNER_DETAILS);
       setRecommendations(MOCK_BUYER_RECOMMENDATIONS.recommendedCreators);
       setLoading(false);
-    }, 500);
+    }, 1500);
   }, [id]);
 
   return (
@@ -73,7 +73,7 @@ export default function BuyerWorkspace() {
       )}
 
       {loading ? (
-        <PageLoader message="AI กำลังค้นหาครีเอเตอร์ที่เหมาะสม..." />
+        <BuyerWorkspaceSkeleton />
       ) : (
         <div className="pt-4 grid grid-cols-1 xl:grid-cols-4 gap-6">
           {/* Left Column: Reference Creators & Client Intelligence */}
