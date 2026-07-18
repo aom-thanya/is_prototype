@@ -8,44 +8,20 @@ import { FilterDrawer } from './FilterDrawer';
 import { ProfileDrawer } from './ProfileDrawer';
 import { ConfirmModal } from '../base/modal/ConfirmModal';
 
-const MOCK_SEARCH_RESULTS = [
-  {
-    creatorId: "mock-1",
-    username: "style_icon_th",
-    displayName: "Style Icon",
-    profileImageUrl: "https://ui-avatars.com/api/?name=Style",
-    platform: "TikTok",
-    followerCount: 1200000,
-    engagementRate: "4.1",
-    categories: ["Fashion", "Lifestyle"],
-    similarityScore: 92,
-    socialUrl: "#"
-  },
-  {
-    creatorId: "mock-2",
-    username: "beauty_bkk",
-    displayName: "Beauty BKK",
-    profileImageUrl: "https://ui-avatars.com/api/?name=Beauty",
-    platform: "TikTok",
-    followerCount: 500000,
-    engagementRate: "2.5",
-    categories: ["Beauty", "Cosmetics"],
-    similarityScore: 88,
-    socialUrl: "#"
-  },
-  {
-    creatorId: "mock-3",
-    username: "foodie_journey",
-    displayName: "Food Journey",
-    profileImageUrl: "https://ui-avatars.com/api/?name=Food",
-    platform: "TikTok",
-    followerCount: 350000,
-    engagementRate: "3.8",
-    categories: ["Food", "Review"],
-    similarityScore: 75,
-    socialUrl: "#"
-  }
-];
+import { MOCK_LOOKALIKE_RESPONSE } from '../../mockData/lookalikeMock';
+
+const MOCK_SEARCH_RESULTS = (MOCK_LOOKALIKE_RESPONSE.results || []).map(r => ({
+  creatorId: r.socialAccountId,
+  username: r.name,
+  displayName: r.name,
+  profileImageUrl: r.profilePictureUrl,
+  platform: "TikTok",
+  followerCount: r.follower,
+  engagementRate: (r.engagementRate * 100).toFixed(2),
+  categories: r.contentTags,
+  similarityScore: Math.round((r.scores?.total || 0) * 100),
+  socialUrl: r.tiktokUrl
+}));
 
 export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSelected = [] }) {
   const [activeTab, setActiveTab] = useState('photo');
