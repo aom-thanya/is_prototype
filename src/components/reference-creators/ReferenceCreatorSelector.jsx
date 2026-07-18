@@ -8,6 +8,45 @@ import { FilterDrawer } from './FilterDrawer';
 import { ProfileDrawer } from './ProfileDrawer';
 import { ConfirmModal } from '../base/modal/ConfirmModal';
 
+const MOCK_SEARCH_RESULTS = [
+  {
+    creatorId: "mock-1",
+    username: "style_icon_th",
+    displayName: "Style Icon",
+    profileImageUrl: "https://ui-avatars.com/api/?name=Style",
+    platform: "TikTok",
+    followerCount: 1200000,
+    engagementRate: "4.1",
+    categories: ["Fashion", "Lifestyle"],
+    similarityScore: 92,
+    socialUrl: "#"
+  },
+  {
+    creatorId: "mock-2",
+    username: "beauty_bkk",
+    displayName: "Beauty BKK",
+    profileImageUrl: "https://ui-avatars.com/api/?name=Beauty",
+    platform: "TikTok",
+    followerCount: 500000,
+    engagementRate: "2.5",
+    categories: ["Beauty", "Cosmetics"],
+    similarityScore: 88,
+    socialUrl: "#"
+  },
+  {
+    creatorId: "mock-3",
+    username: "foodie_journey",
+    displayName: "Food Journey",
+    profileImageUrl: "https://ui-avatars.com/api/?name=Food",
+    platform: "TikTok",
+    followerCount: 350000,
+    engagementRate: "3.8",
+    categories: ["Food", "Review"],
+    similarityScore: 75,
+    socialUrl: "#"
+  }
+];
+
 export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSelected = [] }) {
   const [activeTab, setActiveTab] = useState('photo');
   const [searchQuery, setSearchQuery] = useState('');
@@ -61,12 +100,14 @@ export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSe
     if (!searchQuery.trim()) return;
     setIsSearching(true);
     try {
-      const res = await fetch(`http://localhost:8000/api/creators/search?q=${encodeURIComponent(searchQuery)}`);
+      const res = await fetch(`/api/creators/search?q=${encodeURIComponent(searchQuery)}`);
+      if (!res.ok) throw new Error('Network response was not ok');
       const data = await res.json();
       setResults(data);
     } catch (e) {
       console.error(e);
-      setResults([]);
+      // Fallback for prototype without backend
+      setResults(MOCK_SEARCH_RESULTS.filter(c => c.username.includes(searchQuery.toLowerCase()) || c.categories.some(cat => cat.toLowerCase().includes(searchQuery.toLowerCase()))));
     } finally {
       setIsSearching(false);
     }
@@ -102,6 +143,7 @@ export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSe
         body: formData
       });
       
+      if (!res.ok) throw new Error('Network response was not ok');
       const json = await res.json();
       
       // Map response to match CreatorCard format
@@ -121,7 +163,8 @@ export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSe
       setResults(mappedResults);
     } catch (e) {
       console.error(e);
-      setResults([]);
+      // Fallback for prototype without backend
+      setResults(MOCK_SEARCH_RESULTS);
     } finally {
       setIsPhotoSearching(false);
     }
