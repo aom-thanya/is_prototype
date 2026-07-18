@@ -5,7 +5,7 @@ export const MOCK_PLANNER_DETAILS = {
   clientName: "Coca-Cola Thailand",
   brand: "Coke",
   briefType: "Ratecard",
-  status: "Planner Review",
+  status: "Creator Sourcing",
   createdBy: "Sales Team A",
   assignedPlanner: "Planner A",
   assignedBuyer: "Buyer B",

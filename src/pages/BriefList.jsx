@@ -8,10 +8,10 @@ import { Badge } from '../components/base/badges/badges';
 
 
 const STATUS_COLORS = {
-  'Draft': 'gray',
-  'Brief': 'blue',
-  'Dealsheet': 'purple',
-  'Proposal': 'sky',
+  'Brief Creation': 'gray',
+  'Creator Sourcing': 'blue',
+  'Planning': 'purple',
+  'Sales Handover': 'sky',
 };
 
 const StatusBadge = ({ status }) => {
@@ -193,10 +193,10 @@ export default function BriefList() {
               onChange={(e) => setStatusFilter(e.target.value)}
               options={[
                 { label: 'สถานะทั้งหมด', value: 'All' },
-                { label: 'Draft', value: 'Draft' },
-                { label: 'Brief', value: 'Brief' },
-                { label: 'Dealsheet', value: 'Dealsheet' },
-                { label: 'Proposal', value: 'Proposal' },
+                { label: 'Brief Creation', value: 'Brief Creation' },
+                { label: 'Creator Sourcing', value: 'Creator Sourcing' },
+                { label: 'Planning', value: 'Planning' },
+                { label: 'Sales Handover', value: 'Sales Handover' },
               ]}
             />
           </div>
@@ -249,7 +249,7 @@ export default function BriefList() {
                 </tr>
               ) : (
                 paginatedBriefs.map((brief) => {
-                  const canEdit = brief.status === 'Draft' || brief.status === 'Rejected';
+                  const canEdit = brief.status === 'Brief Creation' || brief.status === 'Rejected';
                   
                   return (
                     <tr key={brief.id} className="hover:bg-gray-50/50 transition-colors">
@@ -281,7 +281,7 @@ export default function BriefList() {
                             color="tertiary"
                             size="sm"
                             onClick={() => {
-                              if (brief.status === 'Draft' || brief.status === 'Brief') {
+                              if (brief.status === 'Brief Creation' || brief.status === 'Creator Sourcing') {
                                 navigate(`/brief/${brief.id}/buyer`);
                               } else {
                                 navigate(`/brief/${brief.id}/planner`);
