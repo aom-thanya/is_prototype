@@ -1,22 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, File02, FileCheck02, Send01 } from '@untitledui/icons';
+import { ArrowLeft, Edit02 } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
 import { Badge } from '../components/base/badges/badges';
 import { BriefStepper } from '../components/brief/BriefStepper';
-
 import BriefInfoSection from './planner-workspace/BriefInfoSection';
-import ExampleListSection from './planner-workspace/ExampleListSection';
-import SimilarCampaignSection from './planner-workspace/SimilarCampaignSection';
-import PlannerWorkspaceSection from './planner-workspace/PlannerWorkspaceSection';
-
-import ClientIntelligencePanel from './planner-workspace/ClientIntelligencePanel';
 
 import { MOCK_PLANNER_DETAILS } from '../mockData/plannerDetails';
-import { MOCK_BUYER_RECOMMENDATIONS } from '../mockData/buyerRecommendations';
-import { exportProposalPptx } from '../utils/pptxExport';
 
-export default function PlannerWorkspace() {
+export default function BriefDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   
@@ -58,29 +50,13 @@ export default function PlannerWorkspace() {
         </div>
         
         <div className="flex flex-wrap items-center gap-2">
-          <Button color="primary" iconLeading={File02} onClick={() => exportProposalPptx(data, MOCK_BUYER_RECOMMENDATIONS.recommendedCreators)}>Generate Proposal</Button>
-          <Button color="primary" iconLeading={Send01} onClick={() => navigate(`/brief/${id}/handover`)}>Submit for Review</Button>
+          <Button color="secondary" iconLeading={Edit02} onClick={() => navigate(`/create-brief`)}>Edit Brief</Button>
         </div>
       </div>
 
-      {/* Main Grid */}
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
-        
-        {/* Left Column - Workspace */}
-        <div className="xl:col-span-2 space-y-8 pb-20">
-          <BriefInfoSection brief={data} />
-          <ExampleListSection />
-          <SimilarCampaignSection campaigns={data.similarCampaigns} />
-          <PlannerWorkspaceSection />
-        </div>
-        
-        {/* Right Column - Client Intelligence */}
-        <div className="xl:col-span-1">
-          <div className="sticky top-6">
-            <ClientIntelligencePanel intelligence={data.clientIntelligence} />
-          </div>
-        </div>
-
+      {/* Main Content */}
+      <div className="w-full pb-20 mt-8">
+        <BriefInfoSection brief={data} />
       </div>
     </div>
   );

@@ -8,6 +8,8 @@ import ClientDetails from './pages/ClientDetails'
 import DashboardHome from './pages/DashboardHome'
 import BuyerWorkspace from './pages/BuyerWorkspace'
 import PlannerWorkspace from './pages/PlannerWorkspace'
+import BriefDetails from './pages/BriefDetails'
+import SalesHandover from './pages/SalesHandover'
 import Sidebar from './components/Sidebar'
 import PageLoader from './components/PageLoader'
 
@@ -56,8 +58,10 @@ function App() {
           <Route path="/client" element={<ClientList />} />
           <Route path="/create-client" element={<CreateClient />} />
           <Route path="/client/:id" element={<ClientDetails />} />
+          <Route path="/brief/:id/details" element={<BriefDetails />} />
           <Route path="/brief/:id/buyer" element={<BuyerWorkspace />} />
           <Route path="/brief/:id/planner" element={<PlannerWorkspace />} />
+          <Route path="/brief/:id/handover" element={<SalesHandover />} />
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
         </Routes>
       </main>

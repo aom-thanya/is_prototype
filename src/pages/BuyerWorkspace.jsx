@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import PageLoader from '../components/PageLoader';
 import { ArrowLeft } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
-import PageLoader from '../components/PageLoader';
+import { Badge } from '../components/base/badges/badges';
 import BriefSummarySection from './buyer-workspace/BriefSummarySection';
 import RecommendationList from './buyer-workspace/RecommendationList';
+import { BriefStepper } from '../components/brief/BriefStepper';
 
 export default function BuyerWorkspace() {
   const { id } = useParams();
@@ -32,15 +34,35 @@ export default function BuyerWorkspace() {
   }, [id]);
 
   return (
-    <div className="p-8 max-w-[1400px] mx-auto space-y-6">
+    <div className="p-8 max-w-[1400px] mx-auto space-y-6 relative">
+      <BriefStepper />
+      
       {/* Header */}
-      <div className="flex items-center gap-4 mb-2">
-        <Button color="tertiary" size="sm" iconLeading={ArrowLeft} onClick={() => navigate('/brief')} />
-        <div>
-          <h1 className="text-2xl font-semibold text-text-primary font-title">Buyer Workspace</h1>
-          <p className="text-sm text-text-secondary mt-1">Review brief and select influencers for Planner</p>
+      {!loading && brief && (
+        <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-4 bg-surface p-6 rounded-xl border border-border shadow-sm mt-8 mb-6">
+          <div className="flex items-start gap-4">
+            <Button color="tertiary" size="sm" iconLeading={ArrowLeft} onClick={() => navigate('/brief')} className="mt-1" />
+            <div>
+              <div className="flex items-center gap-3">
+                <h1 className="text-2xl font-semibold text-text-primary font-title">{brief.briefName}</h1>
+                <Badge color="sky" size="lg">{brief.status}</Badge>
+              </div>
+              <div className="flex flex-wrap items-center gap-3 mt-2 text-sm text-text-secondary">
+                <span>{brief.briefNo}</span>
+                <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                <span className="font-medium text-text-primary">{brief.clientName} ({brief.brand})</span>
+                <span className="w-1 h-1 rounded-full bg-gray-300"></span>
+                <span>Due: <span className="font-medium text-error-600">{brief.dueDate}</span></span>
+              </div>
+              <div className="flex flex-wrap items-center gap-4 mt-2 text-xs text-text-tertiary">
+                <span>Created by: {brief.createdBy}</span>
+                <span>Planner: {brief.assignedPlanner}</span>
+                <span>Buyer: {brief.assignedBuyer}</span>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
+      )}
 
       {loading ? (
         <PageLoader message="AI กำลังค้นหาครีเอเตอร์ที่เหมาะสม..." />
