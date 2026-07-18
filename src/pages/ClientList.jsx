@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { MOCK_CLIENTS } from '../mockData/clients';
 import { useNavigate } from 'react-router-dom';
 import { SearchMd, Plus, Eye } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
@@ -21,6 +22,7 @@ export default function ClientList() {
         setClients(data);
       } catch (error) {
         console.error("Failed to fetch clients:", error);
+        setClients(MOCK_CLIENTS);
       } finally {
         setIsLoading(false);
       }

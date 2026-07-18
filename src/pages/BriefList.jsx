@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useEffect } from 'react';
+import { MOCK_BRIEFS } from '../mockData/briefs';
 import { useNavigate } from 'react-router-dom';
 import { SearchMd, Plus, Eye, Edit02, Copy01 } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
@@ -62,6 +63,13 @@ export default function BriefList() {
         setSummary(summaryData);
       } catch (error) {
         console.error("Failed to fetch data:", error);
+        setBriefs(MOCK_BRIEFS);
+        setSummary({
+          totalCount: MOCK_BRIEFS.length,
+          draftCount: MOCK_BRIEFS.filter(b => b.status === "Draft").length,
+          waitingCount: MOCK_BRIEFS.filter(b => b.status === "Waiting Review").length,
+          completedCount: MOCK_BRIEFS.filter(b => b.status === "Completed").length
+        });
       } finally {
         setIsLoading(false);
       }

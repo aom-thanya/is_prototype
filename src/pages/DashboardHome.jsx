@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { MOCK_DASHBOARD_DATA, MOCK_SLA_STATS } from '../mockData/dashboardData';
 import { Users01 } from '@untitledui/icons';
 import DashboardMetrics from './dashboard/DashboardMetrics';
 import DashboardBriefTable from './dashboard/DashboardBriefTable';
@@ -25,6 +26,8 @@ export default function DashboardHome() {
         setSlaStats(statsData);
       } catch (error) {
         console.error("Failed to fetch dashboard data:", error);
+        setDashboardData(MOCK_DASHBOARD_DATA);
+        setSlaStats(MOCK_SLA_STATS);
       } finally {
         setIsLoading(false);
       }
