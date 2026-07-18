@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import PageLoader from '../components/PageLoader';
-import { ArrowLeft } from '@untitledui/icons';
+import { ArrowLeft, Send01 } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
 import { Badge } from '../components/base/badges/badges';
 import RecommendationList from './buyer-workspace/RecommendationList';
@@ -16,6 +16,8 @@ export default function BuyerWorkspace() {
   const [brief, setBrief] = useState(null);
   const [recommendations, setRecommendations] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedCount, setSelectedCount] = useState(0);
+  const listRef = useRef(null);
 
   useEffect(() => {
     // Simulate fetch with mock data
@@ -55,6 +57,17 @@ export default function BuyerWorkspace() {
               </div>
             </div>
           </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <Button 
+              color="primary" 
+              iconLeading={Send01} 
+              onClick={() => listRef.current?.handleSubmit()} 
+              disabled={selectedCount === 0}
+            >
+              Submit to Planner
+            </Button>
+          </div>
         </div>
       )}
 
@@ -89,7 +102,11 @@ export default function BuyerWorkspace() {
           
           {/* Right Column: Recommendation List */}
           <div className="xl:col-span-3">
-            <RecommendationList recommendations={recommendations} />
+            <RecommendationList 
+              ref={listRef} 
+              recommendations={recommendations} 
+              onCreatorsChange={setSelectedCount} 
+            />
           </div>
         </div>
       )}

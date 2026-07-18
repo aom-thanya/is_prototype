@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, forwardRef, useImperativeHandle } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Zap, AlertCircle, Users01, SearchSm, ArrowDown, ArrowUp, Trash01, ChevronLeft, ChevronRight } from '@untitledui/icons';
 import { Button } from '../../components/base/buttons/button';
@@ -7,7 +7,7 @@ import { ConfirmModal } from '../../components/base/modal/ConfirmModal';
 import { ReferenceCreatorSelector } from '../../components/reference-creators/ReferenceCreatorSelector';
 import { BuyerCreatorDrawer } from './BuyerCreatorDrawer';
 
-export default function RecommendationList({ recommendations = [] }) {
+const RecommendationList = forwardRef(({ recommendations = [], onCreatorsChange }, ref) => {
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -23,6 +23,16 @@ export default function RecommendationList({ recommendations = [] }) {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: 'asc' });
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 10;
+
+  useEffect(() => {
+    if (onCreatorsChange) {
+      onCreatorsChange(creatorsList.length);
+    }
+  }, [creatorsList.length, onCreatorsChange]);
+
+  useImperativeHandle(ref, () => ({
+    handleSubmit
+  }));
 
   const handleAddCreators = (newCreators) => {
     const formattedCreators = newCreators.map(c => ({
@@ -365,18 +375,7 @@ export default function RecommendationList({ recommendations = [] }) {
         </div>
       )}
 
-      {/* Sticky Bottom Bar for Submit */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-full max-w-[1400px] px-4 md:px-8 z-40 pointer-events-none">
-        <div className="bg-white/95 backdrop-blur-md border border-border p-4 rounded-xl shadow-xl flex items-center justify-between pointer-events-auto">
-          <div>
-            <h4 className="font-medium text-text-primary">Selected Creators</h4>
-            <p className="text-sm text-text-secondary">{creatorsList.length} influencer(s) chosen</p>
-          </div>
-          <Button color="primary" onClick={handleSubmit} disabled={creatorsList.length === 0}>
-            Submit to Planner
-          </Button>
-        </div>
-      </div>
+      {/* Sticky Bottom Bar removed as per request to move button to header */}
 
       <BuyerCreatorDrawer 
         isOpen={!!drawerCreator}
@@ -416,4 +415,6 @@ export default function RecommendationList({ recommendations = [] }) {
       />
     </div>
   );
-}
+});
+
+export default RecommendationList;

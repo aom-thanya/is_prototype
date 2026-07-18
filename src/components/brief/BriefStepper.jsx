@@ -34,7 +34,7 @@ export function BriefStepper() {
       {/* Active Track */}
       <div 
         className="absolute left-9 top-5 -translate-y-1/2 border-t-2 border-solid border-brand-solid z-0 transition-all duration-300" 
-        style={{ width: `calc(${((currentStep - 1) / (stages.length - 1)) * 100}% - 4.5rem)` }}
+        style={{ width: `calc((${currentStep - 1} / ${stages.length - 1}) * (100% - 4.5rem))` }}
       ></div>
       
       <div className="flex items-start justify-between relative z-10">
