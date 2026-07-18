@@ -160,10 +160,7 @@ export default function CreateBrief() {
     changeStep(currentStep - 1);
   };
 
-  const handleSaveDraft = () => {
-    showToast('Brief saved as draft.');
-    setTimeout(() => navigate('/brief'), 1500);
-  };
+
 
   const handleSubmit = () => {
     if (validateStep(currentStep)) {
@@ -643,8 +640,8 @@ export default function CreateBrief() {
       </div>
 
     {/* Action Footer */}
-    <div className="sticky bottom-0 w-full bg-white border-t border-border p-4 shadow-[0_-4px_6px_-1px_rgb(0,0,0,0.05)] z-40">
-        <div className="max-w-[1000px] mx-auto flex items-center justify-between gap-4">
+    <div className="sticky bottom-0 w-full bg-white border-t border-border py-4 shadow-[0_-4px_6px_-1px_rgb(0,0,0,0.05)] z-40">
+        <div className="w-full flex items-center justify-between gap-4 px-4 md:px-8">
           <div>
             {currentStep > 1 ? (
               <Button color="secondary" onClick={handleBack}>
@@ -657,9 +654,7 @@ export default function CreateBrief() {
             )}
           </div>
           <div className="flex items-center gap-3">
-            <Button color="secondary" onClick={handleSaveDraft}>
-              Save Draft
-            </Button>
+
             {currentStep < 4 ? (
               <Button color="primary" onClick={handleNext}>
                 Continue

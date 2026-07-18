@@ -19,6 +19,10 @@ export default defineConfig({
         target: 'http://localhost:8000',
         changeOrigin: true,
       },
+      '/backend': {
+        target: 'https://kol-lookalike.vercel.app',
+        changeOrigin: true,
+      },
     },
   },
 })

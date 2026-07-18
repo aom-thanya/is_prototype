@@ -12,6 +12,9 @@ import PlannerWorkspaceSection from './planner-workspace/PlannerWorkspaceSection
 import ClientIntelligencePanel from './planner-workspace/ClientIntelligencePanel';
 
 import { MOCK_PLANNER_DETAILS } from '../mockData/plannerDetails';
+import { MOCK_BUYER_RECOMMENDATIONS } from '../mockData/buyerRecommendations';
+import { exportDealsheet } from '../utils/excelExport';
+import { exportProposalPptx } from '../utils/pptxExport';
 
 export default function PlannerWorkspace() {
   const { id } = useParams();
@@ -54,8 +57,8 @@ export default function PlannerWorkspace() {
         </div>
         
         <div className="flex flex-wrap items-center gap-2">
-          <Button color="secondary" iconLeading={FileCheck02}>Generate Deal Sheet</Button>
-          <Button color="primary" iconLeading={File02}>Generate Proposal</Button>
+          <Button color="secondary" iconLeading={FileCheck02} onClick={() => exportDealsheet(data, MOCK_BUYER_RECOMMENDATIONS.recommendedCreators)}>Generate Deal Sheet</Button>
+          <Button color="primary" iconLeading={File02} onClick={() => exportProposalPptx(data, MOCK_BUYER_RECOMMENDATIONS.recommendedCreators)}>Generate Proposal</Button>
           <Button color="primary" iconLeading={Send01}>Submit for Review</Button>
         </div>
       </div>

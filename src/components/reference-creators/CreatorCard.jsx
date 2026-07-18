@@ -42,7 +42,19 @@ export function CreatorCard({ creator, isSelected, onToggleSelect, onViewProfile
         <h4 className="font-semibold text-text-primary text-sm truncate w-full">
           {creator.displayName || creator.username}
         </h4>
-        <p className="text-xs text-text-secondary truncate w-full">@{creator.username}</p>
+        {creator.socialUrl ? (
+          <a 
+            href={creator.socialUrl} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="text-xs text-brand-solid hover:underline truncate w-full"
+            onClick={(e) => e.stopPropagation()}
+          >
+            @{creator.username}
+          </a>
+        ) : (
+          <p className="text-xs text-text-secondary truncate w-full">@{creator.username}</p>
+        )}
         
         <div className="flex items-center gap-2 mt-2 text-xs text-text-secondary">
           <span className="font-medium text-gray-700">{creator.platform}</span>

@@ -91,11 +91,34 @@ export function ReferenceCreatorSelector({ isOpen, onClose, onConfirm, initialSe
     if (!photoFile) return;
     setIsPhotoSearching(true);
     try {
-      const res = await fetch('http://localhost:8000/api/creators/search_by_photo', {
-        method: 'POST'
+      const formData = new FormData();
+      formData.append('file', photoFile);
+      formData.append('thaiOnly', 'true');
+      formData.append('limit', '24');
+      formData.append('engagementWeight', '0');
+
+      const res = await fetch('/backend/api/lookalike-by-photo', {
+        method: 'POST',
+        body: formData
       });
-      const data = await res.json();
-      setResults(data);
+      
+      const json = await res.json();
+      
+      // Map response to match CreatorCard format
+      const mappedResults = (json.results || []).map(r => ({
+        creatorId: r.socialAccountId,
+        username: r.name,
+        displayName: r.name,
+        profileImageUrl: r.profilePictureUrl,
+        platform: "TikTok",
+        followerCount: r.follower,
+        engagementRate: (r.engagementRate * 100).toFixed(2),
+        categories: r.contentTags,
+        similarityScore: Math.round((r.scores?.total || 0) * 100),
+        socialUrl: r.tiktokUrl
+      }));
+
+      setResults(mappedResults);
     } catch (e) {
       console.error(e);
       setResults([]);

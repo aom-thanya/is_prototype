@@ -15,6 +15,7 @@
     "@tailwindcss/typography": "^0.5.20",
     "@untitledui/icons": "^0.0.22",
     "input-otp": "^1.4.2",
+    "pptxgenjs": "^4.0.1",
     "react": "^19.2.7",
     "react-aria": "^3.50.0",
     "react-aria-components": "^1.19.0",
@@ -23,7 +24,8 @@
     "tailwind-merge": "^3.6.0",
     "tailwindcss-animate": "^1.0.7",
     "tailwindcss-react-aria-components": "^1.1.1",
-    "untitledui": "^0.1.64"
+    "untitledui": "^0.1.64",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
