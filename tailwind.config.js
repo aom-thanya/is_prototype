@@ -72,6 +72,15 @@ export default {
       },
       boxShadow: {
         'xs-skeuomorphic': '0px 1px 2px rgba(16, 24, 40, 0.05)',
+      },
+      keyframes: {
+        fadeIn: {
+          '0%': { opacity: '0', transform: 'translateY(10px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        }
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.4s ease-out forwards',
       }
     },
   },

@@ -22,7 +22,7 @@ export default function BriefDetails() {
   if (!data) return null;
 
   return (
-    <div className="p-8 max-w-[1400px] mx-auto space-y-6 relative">
+    <div className="p-8 max-w-[1400px] mx-auto space-y-6 relative animate-fade-in">
       <BriefStepper />
       
       {/* Header */}

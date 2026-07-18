@@ -6,6 +6,8 @@ import { Button } from '../components/base/buttons/button';
 import { Badge } from '../components/base/badges/badges';
 import RecommendationList from './buyer-workspace/RecommendationList';
 import { BriefStepper } from '../components/brief/BriefStepper';
+import { MOCK_PLANNER_DETAILS } from '../mockData/plannerDetails';
+import { MOCK_BUYER_RECOMMENDATIONS } from '../mockData/buyerRecommendations';
 
 export default function BuyerWorkspace() {
   const { id } = useParams();
@@ -16,24 +18,17 @@ export default function BuyerWorkspace() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const res = await fetch(`/api/workspace/buyer/${id || 'default'}`);
-        const data = await res.json();
-        setBrief(data.brief);
-        setRecommendations(data.recommendations);
-      } catch (error) {
-        console.error("Failed to fetch buyer workspace data:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
+    // Simulate fetch with mock data
+    setLoading(true);
+    setTimeout(() => {
+      setBrief(MOCK_PLANNER_DETAILS);
+      setRecommendations(MOCK_BUYER_RECOMMENDATIONS.recommendedCreators);
+      setLoading(false);
+    }, 500);
   }, [id]);
 
   return (
-    <div className="p-8 max-w-[1400px] mx-auto space-y-6 relative">
+    <div className="p-8 max-w-[1400px] mx-auto space-y-6 relative animate-fade-in">
       <BriefStepper />
       
       {/* Header */}
@@ -66,8 +61,36 @@ export default function BuyerWorkspace() {
       {loading ? (
         <PageLoader message="AI กำลังค้นหาครีเอเตอร์ที่เหมาะสม..." />
       ) : (
-        <div className="pt-4">
-          <RecommendationList recommendations={recommendations} />
+        <div className="pt-4 grid grid-cols-1 xl:grid-cols-4 gap-6">
+          {/* Left Column: Reference Creators */}
+          <div className="xl:col-span-1">
+            <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden sticky top-6">
+              <div className="px-6 py-4 border-b border-gray-200 bg-slate-50 flex justify-between items-center">
+                <h3 className="font-semibold text-[17px] text-text-primary flex items-center gap-2">
+                  <span>👥</span> Reference Creators
+                </h3>
+              </div>
+              <div className="p-6 space-y-4 text-sm">
+                {brief.referenceCreators && brief.referenceCreators.length > 0 ? (
+                  <div className="flex flex-col gap-3">
+                    {brief.referenceCreators.map(c => (
+                      <div key={c.creatorId} className="flex items-center gap-3 bg-gray-50 border border-gray-200 p-2 pr-4 rounded-full">
+                        <img src={c.profileImageUrl || `https://ui-avatars.com/api/?name=${c.username}`} className="w-8 h-8 rounded-full" />
+                        <span className="font-medium text-text-primary truncate">@{c.username}</span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-gray-400">No reference creators selected</span>
+                )}
+              </div>
+            </div>
+          </div>
+          
+          {/* Right Column: Recommendation List */}
+          <div className="xl:col-span-3">
+            <RecommendationList recommendations={recommendations} />
+          </div>
         </div>
       )}
     </div>
