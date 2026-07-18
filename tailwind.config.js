@@ -26,10 +26,10 @@ export default {
           solid_hover: '#5B4CE6',
         },
         page: {
-          background: '#F8F9FC',
+          background: '#F3F4F6',
         },
         surface: '#FFFFFF',
-        border: '#E9ECF5',
+        border: '#E5E7EB',
         error: {
           DEFAULT: '#EF4444',
           solid: '#D92D20',

@@ -4,7 +4,6 @@ import PageLoader from '../components/PageLoader';
 import { ArrowLeft } from '@untitledui/icons';
 import { Button } from '../components/base/buttons/button';
 import { Badge } from '../components/base/badges/badges';
-import BriefSummarySection from './buyer-workspace/BriefSummarySection';
 import RecommendationList from './buyer-workspace/RecommendationList';
 import { BriefStepper } from '../components/brief/BriefStepper';
 
@@ -67,13 +66,9 @@ export default function BuyerWorkspace() {
       {loading ? (
         <PageLoader message="AI กำลังค้นหาครีเอเตอร์ที่เหมาะสม..." />
       ) : (
-        <>
-          <BriefSummarySection brief={brief} />
-          
-          <div className="pt-4">
-            <RecommendationList recommendations={recommendations} />
-          </div>
-        </>
+        <div className="pt-4">
+          <RecommendationList recommendations={recommendations} />
+        </div>
       )}
     </div>
   );

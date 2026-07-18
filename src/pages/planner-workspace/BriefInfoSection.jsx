@@ -8,8 +8,10 @@ export default function BriefInfoSection({ brief }) {
     <div className="space-y-6">
       {/* Campaign Setup */}
       <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-border bg-gray-50 flex justify-between items-center">
-          <h3 className="font-semibold text-text-primary">Campaign Setup</h3>
+        <div className="px-6 py-4 border-b border-gray-200 bg-slate-50 flex justify-between items-center">
+          <h3 className="font-semibold text-[17px] text-text-primary flex items-center gap-2">
+            <span>🗂</span> Campaign Setup
+          </h3>
         </div>
         <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8 text-sm">
           <div><span className="text-text-secondary block mb-1">Project Name</span> <span className="font-medium text-text-primary">{brief.briefName || '-'}</span></div>
@@ -22,8 +24,10 @@ export default function BriefInfoSection({ brief }) {
 
       {/* Campaign Requirements */}
       <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden mt-6">
-        <div className="px-6 py-4 border-b border-border bg-gray-50 flex justify-between items-center">
-          <h3 className="font-semibold text-text-primary">Campaign Requirements</h3>
+        <div className="px-6 py-4 border-b border-gray-200 bg-slate-50 flex justify-between items-center">
+          <h3 className="font-semibold text-[17px] text-text-primary flex items-center gap-2">
+            <span>🎯</span> Campaign Requirements
+          </h3>
         </div>
         <div className="p-6 space-y-4 text-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
@@ -49,8 +53,10 @@ export default function BriefInfoSection({ brief }) {
 
       {/* Reference Creators */}
       <div className="bg-surface rounded-xl border border-border shadow-sm overflow-hidden mt-6">
-        <div className="px-6 py-4 border-b border-border bg-gray-50 flex justify-between items-center">
-          <h3 className="font-semibold text-text-primary">Reference Creators</h3>
+        <div className="px-6 py-4 border-b border-gray-200 bg-slate-50 flex justify-between items-center">
+          <h3 className="font-semibold text-[17px] text-text-primary flex items-center gap-2">
+            <span>👥</span> Reference Creators
+          </h3>
         </div>
         <div className="p-6 space-y-4 text-sm">
           {brief.referenceCreators && brief.referenceCreators.length > 0 ? (
