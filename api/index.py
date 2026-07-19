@@ -4,6 +4,7 @@ from pydantic import BaseModel
 from typing import List, Optional
 import time
 import json
+import os
 from creators_mock import MOCK_CREATORS
 
 app = FastAPI()
@@ -78,7 +79,7 @@ async def get_briefs_summary():
     }
 
 # Load Dashboard Data
-with open("dashboard_data.json", "r", encoding="utf-8") as f:
+with open(os.path.join(os.path.dirname(__file__), "dashboard_data.json"), "r", encoding="utf-8") as f:
     dashboard_data = json.load(f)
 
 @app.get("/api/dashboard/briefs")
@@ -102,7 +103,7 @@ async def get_clients():
     time.sleep(0.5)
     return MOCK_CLIENTS
 
-with open("client_details_data.json", "r", encoding="utf-8") as f:
+with open(os.path.join(os.path.dirname(__file__), "client_details_data.json"), "r", encoding="utf-8") as f:
     client_details_data = json.load(f)
 
 @app.get("/api/clients/{client_id}")
@@ -154,7 +155,7 @@ async def get_client_contacts(client_id: str):
         return client_details_data[client_id].get("contacts", [])
     raise HTTPException(status_code=404, detail="Client not found")
 
-with open("buyer_workspace_data.json", "r", encoding="utf-8") as f:
+with open(os.path.join(os.path.dirname(__file__), "buyer_workspace_data.json"), "r", encoding="utf-8") as f:
     buyer_data = json.load(f)
 
 @app.get("/api/workspace/buyer/{brief_id}")
